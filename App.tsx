@@ -1,10 +1,13 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {ScrollView, Text, View} from 'react-native';
+import {Button, PaperProvider} from 'react-native-paper';
+import { RootNavigator } from './src/navigation';
+
 
 export const App = () => {
   return (
-    <View>
-      <Text style={{backgroundColor: 'yellow'}}>Hello world</Text>
-    </View>
+    <PaperProvider>
+      <RootNavigator />
+    </PaperProvider>
   );
 };
