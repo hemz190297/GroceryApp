@@ -1,20 +1,19 @@
 import React from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {Button} from 'react-native-paper';
 
 export const HomeScreen = ({navigation}) => {
+  const renderButton = (title: string, onPress: () => void) => {
+    return (
+      <Button mode="contained" style={{ marginTop: 16}} onPress={onPress}>
+        <Text>{title}</Text>
+      </Button>
+    );
+  };
+
   return (
-    <ScrollView>
-      <View style={{flex: 1, padding: 16}}>
-        <TouchableOpacity
-          // mode="contained"
-          style={{backgroundColor: 'red', padding: 24}}
-          onPress={() => {
-            console.log('on pressed mouli');
-            navigation.navigate('FbWelcome');
-          }}>
-          <Text>FB welcome</Text>
-        </TouchableOpacity>
-      </View>
+    <ScrollView style={{marginBottom: 32}}>
+      {renderButton('FB welcome', () => navigation.navigate('FbWelcome'))}
     </ScrollView>
   );
 };
