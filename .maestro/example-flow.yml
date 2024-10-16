@@ -1,0 +1,10 @@
+# example-flow.yaml
+
+appId: com.awesomeproject
+---
+- launchApp
+
+# Change to whatever matches your app welcome screen!
+- extendedWaitUntil:
+    visible: 'Home'
+    timeout: 120000
