@@ -8,8 +8,6 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    
-    
     "ts:check": "tsc -p . --noEmit",
     "prettier:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
     "prettier:write": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
@@ -22,14 +20,12 @@
     "build:debug:android": "cd android && ./gradlew assembleDebug -DtestBuildType=debug -Dorg.gradle.jvmargs=-Xmx4g",
     "build:debug:ios": "cd ios && pod install && cd .. && xcodebuild ONLY_ACTIVE_ARCH=YES -workspace ios/AwesomeProject.xcworkspace -UseNewBuildSystem=YES -scheme AwesomeProject -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build -quiet",
     "maestro:test": "maestro test --debug-output maestro-debug-output .maestro"
-
-    
   },
   "dependencies": {
     "@react-native-community/masked-view": "0.1.11",
     "@react-navigation/native": "6.1.18",
     "@react-navigation/native-stack": "6.11.0",
-    "react": "18.3.1",
+    "react": "18.2.0",
     "react-native": "0.74.0",
     "react-native-gesture-handler": "2.20.0",
     "react-native-paper": "5.12.5",
@@ -41,18 +37,22 @@
     "@babel/core": "7.25.7",
     "@babel/preset-env": "7.25.7",
     "@babel/runtime": "7.25.7",
+    "@eslint/js": "9.13.0",
     "@react-native/babel-preset": "0.75.4",
     "@react-native/eslint-config": "0.75.4",
     "@react-native/metro-config": "0.75.4",
     "@react-native/typescript-config": "0.75.4",
-    "@types/react": "18.3.11",
+    "@types/react": "18.2.0",
     "@types/react-test-renderer": "18.0.0",
     "babel-jest": "29.7.0",
-    "eslint": "9.12.0",
+    "eslint": "9.13.0",
+    "eslint-plugin-react": "7.37.1",
+    "globals": "15.11.0",
     "jest": "29.7.0",
     "prettier": "3.3.3",
-    "react-test-renderer": "18.3.1",
-    "typescript": "5.6.3"
+    "react-test-renderer": "18.2.0",
+    "typescript": "5.6.3",
+    "typescript-eslint": "8.10.0"
   },
   "engines": {
     "node": ">=18"
