@@ -11,3 +11,27 @@
 
 # -keepattributes LineNumberTable,SourceFile
 # -renamesourcefileattribute SourceFile
+
+
+-dontskipnonpubliclibraryclasses
+-dontskipnonpubliclibraryclassmembers
+
+-printusage printUsage_Deadcode.txt
+-printconfiguration printConfiguration.txt
+-printmapping printMapping.txt
+-printseeds printSeeds.txt
+-dump dump.txt
+
+-verbose
+-addconfigurationdebugging
+
+-optimizationpasses 5
+-allowaccessmodification
+
+-flattenpackagehierarchy ''
+-repackageclasses ''
+-forceprocessing
+
+-renamesourcefileattribute ''
+-useuniqueclassmembernames
+-keepattributes SourceFile,LineNumberTable,*Annotation*
