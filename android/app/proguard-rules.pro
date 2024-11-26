@@ -8,40 +8,18 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Advanced Optimization and Aggressive Obfuscation Settings
--optimizations !code/allocation/variable,!field/*,!class/unboxing/enum,!method/marking/private,!code/removal/advanced
 -optimizationpasses 9
 -allowaccessmodification
 -dontpreverify
--repackageclasses 'o'
--flattenpackagehierarchy 'o'
+-repackageclasses ''
+-flattenpackagehierarchy ''
 -overloadaggressively
 -useuniqueclassmembernames
 -mergeinterfacesaggressively
 
-# Enable all optimizations except those that are known to cause issues
--optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*,!code/allocation/variable
--keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,*Annotation*,EnclosingMethod
-
 # Advanced code optimization
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
--verbose
-
-# Aggressive optimization settings
--allowaccessmodification
--mergeinterfacesaggressively
--overloadaggressively
--repackageclasses ''
--flattenpackagehierarchy ''
-
-# String Encryption Protection
-#-keep class com.awesomeproject.StringEncryption {
-#    private static final char[] KEY;
-#    public static java.lang.String decrypt(java.lang.String);
-#}
-#-assumenosideeffects class com.awesomeproject.StringEncryption {
-#    public static java.lang.String encrypt(...);
-#}
 
 # Aggressive name obfuscation
 -obfuscationdictionary proguard-dictionary.txt
@@ -84,11 +62,6 @@
     public static int e(...);
 }
 
-# Remove toString() methods
-#-assumenosideeffects class java.lang.Object {
-#    public java.lang.String toString();
-#}
-
 # Additional security measures
 -keepclassmembers class * implements java.io.Serializable {
     private static final java.io.ObjectStreamField[] serialPersistentFields;
@@ -101,10 +74,6 @@
 # Advanced string and class protection
 -adaptclassstrings
 -adaptresourcefilecontents **.properties,META-INF/MANIFEST.MF,META-INF/*.properties,META-INF/*.xml
--keepattributes InnerClasses,EnclosingMethod
--repackageclasses 'o'
--allowaccessmodification
--mergeinterfacesaggressively
 
 # Mapping for debugging (keep secure)
 -printmapping mapping.txt
