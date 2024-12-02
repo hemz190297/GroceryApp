@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { Button, TextInput } from 'react-native-paper';
@@ -23,14 +23,30 @@ export const ReactDevToolsHomeScreen = () => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  const renderTitle = () => {
-    return <Text style={styles.title}>Todo List</Text>;
-  };
+  //   const RenderTitle = () => {
+  //     useEffect(() => {
+  //       console.log('RenderTitle useEffect mount');
+  //       return () => {
+  //         console.log('RenderTitle useEffect un-mount');
+  //       };
+  //     }, []);
+  //     return <Text style={styles.title}>Todo List</Text>;
+  //   };
+
+  //   const renderTitle = () => {
+  //     useEffect(() => {
+  //       console.log('renderTitle useEffect mount');
+  //       return () => {
+  //         console.log('renderTitle useEffect un-mount');
+  //       };
+  //     }, []);
+  //     return <Text style={styles.title}>Todo List</Text>;
+  //   };
 
   return (
     <>
       <View style={styles.container}>
-        {renderTitle()}
+        <Text style={styles.title}>Todo List</Text>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
