@@ -1,3 +1,5 @@
+import { ParamListBase } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
@@ -8,7 +10,11 @@ interface Todo {
   text: string;
 }
 
-export const ReactDevToolsHomeScreen = () => {
+export interface ReactDevToolsHomeScreenProps {
+  navigation: NativeStackNavigationProp<ParamListBase>;
+}
+
+export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenProps) => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [inputText, setInputText] = useState('');
 
@@ -46,6 +52,13 @@ export const ReactDevToolsHomeScreen = () => {
   return (
     <>
       <View style={styles.container}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('NestedFlatList');
+          }}
+        >
+          <Text>Nested Flatlist</Text>
+        </TouchableOpacity>
         <Text style={styles.title}>Todo List</Text>
         <View style={styles.inputContainer}>
           <TextInput
