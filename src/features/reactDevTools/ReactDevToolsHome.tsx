@@ -1,9 +1,9 @@
 import { ParamListBase } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { Button, TextInput } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 
 interface Todo {
   id: number;
@@ -20,17 +20,25 @@ const TodoListComponent = () => {
 
 export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenProps) => {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [inputText, setInputText] = useState('');
+  //   const [inputText, setInputText] = useState('');
+
+  const textInputViewRef = useRef<any>();
+  const inputTextRef = useRef<string>('');
 
   const addTodo = () => {
-    if (inputText.trim() !== '') {
-      setTodos([...todos, { id: Date.now(), text: inputText.trim() }]);
+    if (inputTextRef.current.trim() !== '') {
+      setTodos([...todos, { id: Date.now(), text: inputTextRef.current.trim() }]);
       setInputText('');
+      textInputViewRef.current?.setNativeProps({ text: '' });
     }
   };
 
   const removeTodo = (id: number) => {
     setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
+  const setInputText = (value: string) => {
+    inputTextRef.current = value;
   };
 
   //   const RenderTitle = () => {
@@ -67,8 +75,9 @@ export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenP
         <TodoListComponent />
         <View style={styles.inputContainer}>
           <TextInput
+            ref={textInputViewRef}
             style={styles.input}
-            value={inputText}
+            // value={inputText}
             onChangeText={setInputText}
             placeholder='Enter a new todo'
             placeholderTextColor='#aaa'
