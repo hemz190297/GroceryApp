@@ -23,10 +23,14 @@ export const ReactDevToolsHomeScreen = () => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  const renderTitle = () => {
+    return <Text style={styles.title}>Todo List</Text>;
+  };
+
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.title}>Todo List</Text>
+        {renderTitle()}
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
