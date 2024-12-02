@@ -8,6 +8,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {Button} from 'react-native-paper';
 import FbWelcomeScreen from '../screens/FbWelcomeScreen';
 import { HomeScreen } from '../screens/HomeScreen';
+import { ReactDevToolsHomeScreen } from '../features/reactDevTools/ReactDevToolsHome';
 
 
 const Stack = createNativeStackNavigator();
@@ -19,6 +20,7 @@ export const RootNavigator = () => {
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="FbWelcome" component={FbWelcomeScreen} />
+          <Stack.Screen name="ReactDevToolsHome" component={ReactDevToolsHomeScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

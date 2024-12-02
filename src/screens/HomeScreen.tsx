@@ -20,6 +20,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   return (
     <ScrollView style={{marginBottom: 32}}>
       {renderButton('FB welcome', () => navigation.navigate('FbWelcome'))}
+      {renderButton('React Dev tools', () => navigation.navigate('ReactDevToolsHome'))}
     </ScrollView>
   );
 };
