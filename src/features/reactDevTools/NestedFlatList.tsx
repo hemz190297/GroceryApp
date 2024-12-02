@@ -47,6 +47,7 @@ export const NestedFlatList: React.FC = () => {
         renderItem={renderHorizontalItem}
         keyExtractor={(item) => item.id}
         horizontal
+        initialItemsToRender={5}
         showsHorizontalScrollIndicator={false}
       />
     </View>
@@ -59,8 +60,10 @@ export const NestedFlatList: React.FC = () => {
       </View>
       <FlatList
         data={verticalData}
+        // renderItem={(item) => <RenderVerticalItem item={item} />}
         renderItem={renderVerticalItem}
         keyExtractor={(item) => item.id}
+        initialItemsToRender={10}
         showsVerticalScrollIndicator={false}
       />
     </View>

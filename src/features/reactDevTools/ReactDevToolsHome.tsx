@@ -14,6 +14,10 @@ export interface ReactDevToolsHomeScreenProps {
   navigation: NativeStackNavigationProp<ParamListBase>;
 }
 
+const TodoListComponent = () => {
+  return <Text style={styles.title}>Todo List from component</Text>;
+};
+
 export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenProps) => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [inputText, setInputText] = useState('');
@@ -60,6 +64,7 @@ export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenP
           <Text>Nested Flatlist</Text>
         </TouchableOpacity>
         <Text style={styles.title}>Todo List</Text>
+        <TodoListComponent />
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
