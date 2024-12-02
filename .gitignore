@@ -72,3 +72,7 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+android/app/printConfiguration.txt
+android/app/printMapping.txt
+android/app/printSeeds.txt
+android/app/printUsage_Deadcode.txt

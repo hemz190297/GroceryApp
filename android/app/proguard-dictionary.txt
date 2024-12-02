@@ -1,0 +1,142 @@
+aZ
+bY
+cX
+dW
+eV
+fU
+gT
+hS
+iR
+jQ
+kP
+lO
+mN
+nM
+oL
+pK
+qJ
+rI
+sH
+tG
+uF
+vE
+wD
+xC
+yB
+zA
+# Special characters
+$
+_
+# Numbers with special characters
+0$
+1_
+2$
+3_
+4$
+5_
+6$
+7_
+8$
+9_
+
+# Complex Unicode characters that are valid Java identifiers
+ᄀ
+ᄁ
+ᄂ
+ᄃ
+ᄄ
+ᄅ
+ᄆ
+ᄇ
+ᄈ
+ᄉ
+# Confusing similar-looking characters
+Il1
+l1I
+O0Q
+oq9
+# Mixed case with numbers and special chars
+_$O0
+$_l1
+_$Il
+$_0O
+# Unicode mathematical symbols (valid in identifiers)
+α
+β
+γ
+δ
+ε
+θ
+λ
+π
+σ
+Ω
+# Combinations of confusing characters
+OQ0_$
+Il1_$
+q9g_$
+b6_$
+# Long confusing sequences
+IllIllI
+OQ0OQ0
+l1Il1I
+# Special character combinations
+$$_
+__$
+$_$
+_$$
+# Mixed Unicode and ASCII
+α_$
+β_$
+γ_$
+δ_$
+# Misleading sequences
+null_
+void_
+class_
+true_
+false_
+# Complex combinations
+$α$β$
+_γ_δ_
+$θ$λ$
+_π_σ_
+# Extra confusing patterns
+O0Q_Il1
+Il1_O0Q
+αβγ_$
+δεθ_$
+# Valid but confusing method-like names
+get_$
+set_$
+is_$
+do_$
+# Symbols that look like operators
+plus_
+minus_
+mult_
+div_
+# More Unicode confusers (Greek letters that look like Latin)
+Αα_$
+Ββ_$
+Εε_$
+Ιι_$
+Κκ_$
+Μμ_$
+Νν_$
+Οο_$
+Ρρ_$
+Ττ_$
+# Complex mixed patterns
+$ΑαΒβ_
+_ΕεΙι$
+$ΚκΜμ_
+_ΝνΟο$
+# Extremely long confusing sequences
+IllI1OO0QQ0OO1IllI
+O00OQQIllII11ll1I
+l1Il1IO0QO0QIlI1l
+# Special patterns with numbers
+_1_l_I_
+_0_O_Q_
+_9_q_g_
