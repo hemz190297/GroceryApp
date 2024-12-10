@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Dimensions } from 'react-native';
+import { Dimensions, FlatList, StyleSheet, Text, View } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -47,7 +47,6 @@ export const NestedFlatList: React.FC = () => {
         renderItem={renderHorizontalItem}
         keyExtractor={(item) => item.id}
         horizontal
-        initialItemsToRender={5}
         showsHorizontalScrollIndicator={false}
       />
     </View>
@@ -63,7 +62,6 @@ export const NestedFlatList: React.FC = () => {
         // renderItem={(item) => <RenderVerticalItem item={item} />}
         renderItem={renderVerticalItem}
         keyExtractor={(item) => item.id}
-        initialItemsToRender={10}
         showsVerticalScrollIndicator={false}
       />
     </View>

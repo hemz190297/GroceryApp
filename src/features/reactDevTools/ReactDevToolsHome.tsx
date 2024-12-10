@@ -1,42 +1,41 @@
 import { ParamListBase } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { Button } from 'react-native-paper';
+
+export interface ReactDevToolsHomeScreenProps {
+  navigation: NativeStackNavigationProp<ParamListBase>;
+}
 
 interface Todo {
   id: number;
   text: string;
 }
 
-export interface ReactDevToolsHomeScreenProps {
-  navigation: NativeStackNavigationProp<ParamListBase>;
-}
+// const TodoListComponent = ({ parentCount }: { parentCount: number }) => {
+//   const [count, setCount] = useState(0);
 
-const TodoListComponent = ({ parentCount }: { parentCount: number }) => {
-  const [count, setCount] = useState(0);
+//   useEffect(() => {
+//     console.log('useEffect mount child');
+//   }, []);
 
-  useEffect(() => {
-    console.log('useEffect mount child');
-  }, []);
-
-  useEffect(() => {
-    console.log('useEffect mount child', count);
-  }, [count]);
-  return (
-    <TouchableOpacity onPress={() => setCount(count + 1)}>
-      <Text style={styles.title}>{`Todo List from component: ${count}, parentCount: ${parentCount}`}</Text>
-    </TouchableOpacity>
-  );
-};
+//   useEffect(() => {
+//     console.log('useEffect mount child', count);
+//   }, [count]);
+//   return (
+//     <TouchableOpacity onPress={() => setCount(count + 1)}>
+//       <Text style={styles.title}>{`Todo List from component: ${count}, parentCount: ${parentCount}`}</Text>
+//     </TouchableOpacity>
+//   );
+// };
 
 export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenProps) => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [count, setCount] = useState(0);
   //   const [inputText, setInputText] = useState('');
 
-  const textInputViewRef = useRef<any>();
+  const textInputViewRef = useRef<TextInput>();
   const inputTextRef = useRef<string>('');
 
   const addTodo = () => {
