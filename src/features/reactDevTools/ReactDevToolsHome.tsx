@@ -14,12 +14,26 @@ export interface ReactDevToolsHomeScreenProps {
   navigation: NativeStackNavigationProp<ParamListBase>;
 }
 
-const TodoListComponent = () => {
-  return <Text style={styles.title}>Todo List from component</Text>;
+const TodoListComponent = ({ parentCount }: { parentCount: number }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    console.log('useEffect mount child');
+  }, []);
+
+  useEffect(() => {
+    console.log('useEffect mount child', count);
+  }, [count]);
+  return (
+    <TouchableOpacity onPress={() => setCount(count + 1)}>
+      <Text style={styles.title}>{`Todo List from component: ${count}, parentCount: ${parentCount}`}</Text>
+    </TouchableOpacity>
+  );
 };
 
 export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenProps) => {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [count, setCount] = useState(0);
   //   const [inputText, setInputText] = useState('');
 
   const textInputViewRef = useRef<any>();
@@ -73,13 +87,40 @@ export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenP
     );
   };
 
+  // TODO: We shall not declare components inside other components
+  const TodoListComponentInsider = ({ parentCount }: { parentCount: number }) => {
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+      console.log('useEffect mount child insider');
+    }, []);
+
+    useEffect(() => {
+      console.log('useEffect mount child insider', count);
+    }, [count]);
+    return (
+      <TouchableOpacity onPress={() => setCount(count + 1)}>
+        <Text style={styles.title}>{`Todo List from insider component: ${count}, parentCount: ${parentCount}`}</Text>
+      </TouchableOpacity>
+    );
+  };
+
+  const renderTodoListComponent = () => {
+    // return <TodoListComponent parentCount={count} />; // works as expected
+    // return <>{TodoListComponent({ parentCount: count })}</>; // works as expected, but we shall not follow this syntax
+    return <TodoListComponentInsider parentCount={count} />; // bad
+    // return <>{TodoListComponentInsider({ parentCount: count })}</>; // works as expected, but we shall not follow this syntax
+  };
+
   return (
     <>
       <View style={styles.container}>
         {renderButton('Nested Flatlist', 'NestedFlatList')}
         {renderButton('setTimeOut', 'SetTimeoutScreen')}
-        <Text style={styles.title}>Todo List</Text>
-        <TodoListComponent />
+        <TouchableOpacity onPress={() => setCount(count + 1)}>
+          <Text style={styles.title}>{`Todo List: ${count}`}</Text>
+        </TouchableOpacity>
+        {renderTodoListComponent()}
         <View style={styles.inputContainer}>
           <TextInput
             ref={textInputViewRef}
