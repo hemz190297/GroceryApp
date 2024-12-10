@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import debounce from 'lodash/debounce';
 
@@ -6,11 +6,11 @@ export const SetTimeoutScreen = () => {
   const [text, setText] = useState('');
   const [displayText, setDisplayText] = useState('');
   const [type, setType] = useState('');
-  let timeoutId: NodeJS.Timeout;
+  const timeoutId = useRef<NodeJS.Timeout>();
 
   const onTextChangeTimeOut = (newText: string) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
+    clearTimeout(timeoutId.current);
+    timeoutId.current = setTimeout(() => {
       console.log('timeout', newText);
       setDisplayText(newText);
     }, 2000);
@@ -18,15 +18,23 @@ export const SetTimeoutScreen = () => {
     setType('timeout');
   };
 
+  const handleDebouncedTextChange = (newText: string) => {
+    console.log('lodash', newText);
+    setDisplayText(newText);
+  };
+
+  const debouncedOnTextChange = useCallback(
+    debounce(handleDebouncedTextChange, 2000, {
+      leading: false,
+      maxWait: 500,
+      trailing: true,
+    }),
+    [],
+  );
+
   const onTextChangeLodash = (newText: string) => {
-    debounce(
-      () => {
-        console.log('lodash', newText);
-        setDisplayText(newText);
-      },
-      2000,
-      { leading: false, trailing: true },
-    )();
+    debouncedOnTextChange.cancel();
+    debouncedOnTextChange(newText);
     setText(newText);
     setType('lodash');
   };

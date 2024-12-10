@@ -21,6 +21,7 @@
     "build:debug:ios": "cd ios && pod install && cd .. && xcodebuild ONLY_ACTIVE_ARCH=YES -workspace ios/AwesomeProject.xcworkspace -UseNewBuildSystem=YES -scheme AwesomeProject -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build -quiet",
     "maestro:test": "maestro test --debug-output maestro-debug-output .maestro",
     "adb-install": "adb install android/app/build/outputs/apk/debug/app-debug.apk && adb reverse tcp:8081 tcp:8081 && npm run start",
+    "adb-connect": "adb reverse tcp:8081 tcp:8081",
     "adb-uninstall": "adb uninstall com.awesomeproject"
   },
   "dependencies": {
