@@ -61,16 +61,23 @@ export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenP
   //     return <Text style={styles.title}>Todo List</Text>;
   //   };
 
+  const renderButton = (title: string, screenName: string) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate(screenName);
+        }}
+      >
+        <Text>{title}</Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <>
       <View style={styles.container}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('NestedFlatList');
-          }}
-        >
-          <Text>Nested Flatlist</Text>
-        </TouchableOpacity>
+        {renderButton('Nested Flatlist', 'NestedFlatList')}
+        {renderButton('setTimeOut', 'SetTimeoutScreen')}
         <Text style={styles.title}>Todo List</Text>
         <TodoListComponent />
         <View style={styles.inputContainer}>

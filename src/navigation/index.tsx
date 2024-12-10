@@ -10,6 +10,7 @@ import FbWelcomeScreen from '../screens/FbWelcomeScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { ReactDevToolsHomeScreen } from '../features/reactDevTools/ReactDevToolsHome';
 import { NestedFlatList } from '../features/reactDevTools/NestedFlatList';
+import { SetTimeoutScreen } from '../screens/SetTimeoutScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ export const RootNavigator = () => {
           <Stack.Screen name='FbWelcome' component={FbWelcomeScreen} />
           <Stack.Screen name='ReactDevToolsHome' component={ReactDevToolsHomeScreen} />
           <Stack.Screen name='NestedFlatList' component={NestedFlatList} />
+          <Stack.Screen name='SetTimeoutScreen' component={SetTimeoutScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
