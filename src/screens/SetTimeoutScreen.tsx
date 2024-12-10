@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import debounce from 'lodash/debounce';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export const SetTimeoutScreen = () => {
   const [text, setText] = useState('');
@@ -8,15 +8,15 @@ export const SetTimeoutScreen = () => {
   const [type, setType] = useState('');
   const timeoutId = useRef<NodeJS.Timeout>();
 
-  const onTextChangeTimeOut = (newText: string) => {
-    clearTimeout(timeoutId.current);
-    timeoutId.current = setTimeout(() => {
-      console.log('timeout', newText);
-      setDisplayText(newText);
-    }, 2000);
-    setText(newText);
-    setType('timeout');
-  };
+  // const onTextChangeTimeOut = (newText: string) => {
+  //   clearTimeout(timeoutId.current);
+  //   timeoutId.current = setTimeout(() => {
+  //     console.log('timeout', newText);
+  //     setDisplayText(newText);
+  //   }, 2000);
+  //   setText(newText);
+  //   setType('timeout');
+  // };
 
   const handleDebouncedTextChange = (newText: string) => {
     console.log('lodash', newText);
@@ -45,7 +45,7 @@ export const SetTimeoutScreen = () => {
   };
 
   useEffect(() => {
-    return () => clearTimeout(timeoutId);
+    return () => clearTimeout(timeoutId.current);
   }, []);
 
   return (
