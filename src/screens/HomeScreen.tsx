@@ -1,26 +1,19 @@
 import { ParamListBase } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
-import { ScrollView, Text } from 'react-native';
-import { Button } from 'react-native-paper';
+import { ScrollView } from 'react-native';
+import { Button } from '../components/Button';
 
 export interface HomeScreenProps {
   navigation: NativeStackNavigationProp<ParamListBase>;
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
-  const renderButton = (title: string, onPress: () => void) => {
-    return (
-      <Button mode='contained' style={{ marginTop: 16 }} onPress={onPress}>
-        <Text>{title}</Text>
-      </Button>
-    );
-  };
-
   return (
     <ScrollView style={{ marginBottom: 32 }}>
-      {renderButton('FB welcome', () => navigation.navigate('FbWelcome'))}
-      {renderButton('React Dev tools', () => navigation.navigate('ReactDevToolsHome'))}
+      <Button title='FB welcome' onPress={() => navigation.navigate('FbWelcome')} />
+      <Button title='React dev tools' onPress={() => navigation.navigate('ReactDevToolsHome')} />
+      <Button title='Native module' onPress={() => navigation.navigate('NativeModuleScreen')} />
     </ScrollView>
   );
 };
