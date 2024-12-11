@@ -4,5 +4,6 @@ module.exports = {
   useTabs: false,
   singleQuote: true,
   jsxSingleQuote: true,
-  printWidth: 120
+  printWidth: 120,
+  plugins: ['prettier-plugin-organize-imports'],
 };
