@@ -22,6 +22,7 @@
     "maestro:test": "maestro test --debug-output maestro-debug-output .maestro",
     "adb-install": "adb install android/app/build/outputs/apk/debug/app-debug.apk && adb reverse tcp:8081 tcp:8081 && npm run start",
     "adb-open-app": "adb shell am start -n com.awesomeproject/com.awesomeproject.MainApplication",
+    "adb-close-app": "adb shell am force-stop com.awesomeproject",
     "adb-connect": "adb reverse tcp:8081 tcp:8081",
     "adb-uninstall": "adb uninstall com.awesomeproject",
     "clean-install-android": "remove-node-modules && npm install -f && cd android && gradlew clean && cd .. && npm run android"
