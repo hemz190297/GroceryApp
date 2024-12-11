@@ -1,6 +1,6 @@
 import { ParamListBase } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -21,8 +21,9 @@ interface Todo {
 //   }, []);
 
 //   useEffect(() => {
-//     console.log('useEffect mount child', count);
+//     console.log('useEffect count child', count);
 //   }, [count]);
+//   console.log('render TodoListComponent');
 //   return (
 //     <TouchableOpacity onPress={() => setCount(count + 1)}>
 //       <Text style={styles.title}>{`Todo List from component: ${count}, parentCount: ${parentCount}`}</Text>
@@ -33,16 +34,16 @@ interface Todo {
 export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenProps) => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [count, setCount] = useState(0);
-  //   const [inputText, setInputText] = useState('');
+    const [inputText, setInputText] = useState('');
 
-  const textInputViewRef = useRef<TextInput>();
-  const inputTextRef = useRef<string>('');
+  // const textInputViewRef = useRef<TextInput>();
+  // const inputTextRef = useRef<string>('');
 
   const addTodo = () => {
-    if (inputTextRef.current.trim() !== '') {
-      setTodos([...todos, { id: Date.now(), text: inputTextRef.current.trim() }]);
+    if (inputText.trim() !== '') {
+      setTodos([...todos, { id: Date.now(), text: inputText.trim() }]);
       setInputText('');
-      textInputViewRef.current?.setNativeProps({ text: '' });
+      // textInputViewRef.current?.setNativeProps({ text: '' });
     }
   };
 
@@ -50,9 +51,9 @@ export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenP
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  const setInputText = (value: string) => {
-    inputTextRef.current = value;
-  };
+  // const setInputText = (value: string) => {
+  //   inputTextRef.current = value;
+  // };
 
   //   const RenderTitle = () => {
   //     useEffect(() => {
@@ -95,8 +96,10 @@ export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenP
     }, []);
 
     useEffect(() => {
-      console.log('useEffect mount child insider', count);
+      console.log('useEffect count child insider', count);
     }, [count]);
+
+    console.log('render TodoListComponentInsider');
     return (
       <TouchableOpacity onPress={() => setCount(count + 1)}>
         <Text style={styles.title}>{`Todo List from insider component: ${count}, parentCount: ${parentCount}`}</Text>
@@ -107,8 +110,8 @@ export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenP
   const renderTodoListComponent = () => {
     // return <TodoListComponent parentCount={count} />; // works as expected
     // return <>{TodoListComponent({ parentCount: count })}</>; // works as expected, but we shall not follow this syntax
-    return <TodoListComponentInsider parentCount={count} />; // bad
-    // return <>{TodoListComponentInsider({ parentCount: count })}</>; // works as expected, but we shall not follow this syntax
+    // return <TodoListComponentInsider parentCount={count} />; // bad
+    return <>{TodoListComponentInsider({ parentCount: count })}</>; // works as expected, but we shall not follow this syntax
   };
 
   return (
@@ -122,9 +125,9 @@ export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenP
         {renderTodoListComponent()}
         <View style={styles.inputContainer}>
           <TextInput
-            ref={textInputViewRef}
+            // ref={textInputViewRef}
             style={styles.input}
-            // value={inputText}
+            value={inputText}
             onChangeText={setInputText}
             placeholder='Enter a new todo'
             placeholderTextColor='#aaa'
