@@ -13,23 +13,27 @@ interface Todo {
   text: string;
 }
 
-// const TodoListComponent = ({ parentCount }: { parentCount: number }) => {
-//   const [count, setCount] = useState(0);
+const TodoListComponent = ({ parentCount }: { parentCount: number }) => {
+  const [count, setCount] = useState(0);
 
-//   useEffect(() => {
-//     console.log('useEffect mount child');
-//   }, []);
+  useEffect(() => {
+    console.log('useEffect mount child');
+  }, []);
 
-//   useEffect(() => {
-//     console.log('useEffect count child', count);
-//   }, [count]);
-//   console.log('render TodoListComponent');
-//   return (
-//     <TouchableOpacity onPress={() => setCount(count + 1)}>
-//       <Text style={styles.title}>{`Todo List from component: ${count}, parentCount: ${parentCount}`}</Text>
-//     </TouchableOpacity>
-//   );
-// };
+  useEffect(() => {
+    console.log('useEffect count child', count);
+  }, [count]);
+  console.log('render TodoListComponent');
+  return (
+    <TouchableOpacity onPress={() => setCount(count + 1)}>
+      <Text style={styles.title}>{`Todo List from component: ${count}, parentCount: ${parentCount}`}</Text>
+    </TouchableOpacity>
+  );
+};
+
+const TodoListComponentMemo = React.memo(TodoListComponent, (prevProps, nextProps) => {
+  return prevProps.parentCount === nextProps.parentCount
+})
 
 export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenProps) => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -107,11 +111,36 @@ export const ReactDevToolsHomeScreen = ({ navigation }: ReactDevToolsHomeScreenP
     );
   };
 
+  const renderTodoListComponentInsider = ({ parentCount }: { parentCount: number }) => {
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+      console.log('useEffect mount child insider');
+    }, []);
+
+    useEffect(() => {
+      console.log('useEffect count child insider', count);
+    }, [count]);
+
+    console.log('render TodoListComponentInsider');
+    return (
+      <TouchableOpacity onPress={() => setCount(count + 1)}>
+        <Text style={styles.title}>{`Todo List from insider component: ${count}, parentCount: ${parentCount}`}</Text>
+      </TouchableOpacity>
+    );
+  };
+
   const renderTodoListComponent = () => {
+    // return (
+    //   <TouchableOpacity onPress={() => setCount(count + 1)}>
+    //    <Text style={styles.title}>{`Todo List from render function: ${count}`}</Text>
+    //  </TouchableOpacity>
+    // )
+    return <TodoListComponentMemo parentCount={count} />
     // return <TodoListComponent parentCount={count} />; // works as expected
     // return <>{TodoListComponent({ parentCount: count })}</>; // works as expected, but we shall not follow this syntax
     // return <TodoListComponentInsider parentCount={count} />; // bad
-    return <>{TodoListComponentInsider({ parentCount: count })}</>; // works as expected, but we shall not follow this syntax
+    // return <>{renderTodoListComponentInsider({ parentCount: count })}</>; // works as expected
   };
 
   return (
