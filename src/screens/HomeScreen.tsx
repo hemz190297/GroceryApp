@@ -13,6 +13,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     <ScrollView style={{ marginBottom: 32 }}>
       <Button title='FB welcome' onPress={() => navigation.navigate('FbWelcome')} />
       <Button title='React dev tools' onPress={() => navigation.navigate('ReactDevToolsHome')} />
+      <Button title='CodeParrot Ai' onPress={() => navigation.navigate('CodeParrotScreen')} />
       <Button title='Native module' onPress={() => navigation.navigate('NativeModuleScreen')} />
     </ScrollView>
   );
