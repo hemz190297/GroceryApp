@@ -1,6 +1,8 @@
 package com.awesomeproject
 
 import android.os.Bundle
+import android.widget.Toast
+import com.awesomeproject.security.SecurityService
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
@@ -24,5 +26,12 @@ class MainActivity : ReactActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(null)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        SecurityService.checkAndBlockHacker(this, { title, message ->
+            Toast.makeText(this@MainActivity, title, Toast.LENGTH_SHORT).show()
+        })
     }
 }
