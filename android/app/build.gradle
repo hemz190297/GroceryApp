@@ -1,3 +1,5 @@
+import java.security.MessageDigest
+
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
@@ -113,6 +115,63 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+}
+
+// Dynamically create tasks for each variant
+android.applicationVariants.all { variant ->
+    def variantName = variant.name // e.g., debug, release
+
+    task "hashAppManifest${variantName.capitalize()}" {
+        group = "verification" // Optional: Group in Gradle task list
+        description = "Compute hash for AndroidManifest.xml for ${variantName} variant"
+
+        doLast {
+            def apkPath = "${buildDir}/outputs/apk/${variantName}/app-${variantName}.apk"
+            // Replace with your APK path
+            def outputDir = file("${buildDir}/outputs/extracted_manifest")
+            outputDir.mkdirs()
+
+            def manifestFile = new File(outputDir, "AndroidManifest.xml")
+            def apkFile = file(apkPath)
+
+            if (!apkFile.exists()) {
+                throw new GradleException("APK file not found at: ${apkPath}")
+            }
+
+            println("APK found at: ${apkPath}")
+
+            // Extract the binary AndroidManifest.xml from the APK
+            ant.unzip(src: apkPath, dest: outputDir) {
+                patternset {
+                    include(name: "AndroidManifest.xml")
+                }
+            }
+
+            if (manifestFile.exists()) {
+                // Compute the hash of the binary file
+                def digest = MessageDigest.getInstance("SHA-256")
+                manifestFile.withInputStream { input ->
+                    byte[] buffer = new byte[8192]
+                    int bytesRead
+                    while ((bytesRead = input.read(buffer)) != -1) {
+                        digest.update(buffer, 0, bytesRead)
+                    }
+                }
+                def manifestHash = digest.digest().collect { String.format("%02x", it) }.join("")
+                println("Binary AndroidManifest.xml Hash: ${manifestHash}")
+
+                // Optionally save the hash to a file
+                def hashFile = new File(outputDir, "manifest_hash.txt")
+                hashFile.text = manifestHash
+                println("Hash saved to ${hashFile.path}")
+            } else {
+                println("Binary AndroidManifest.xml not found in the APK.")
+            }
+        }
+    }
+
+    // Optionally, run this task after the variant is assembled
+    tasks["assemble${variantName.capitalize()}"].finalizedBy("hashAppManifest${variantName.capitalize()}")
 }
 
 tasks.withType(JavaCompile).configureEach {

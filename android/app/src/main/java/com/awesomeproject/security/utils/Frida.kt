@@ -55,17 +55,16 @@ object Frida {
     private fun isFridaLibraryLoaded(): Boolean {
         val knownFridaLibraries = arrayOf("libfrida-gadget.so", "libfrida-agent.so")
         try {
-            val reader = BufferedReader(FileReader("/proc/self/maps"))
-            var line: String
-            while ((reader.readLine().also { line = it }) != null) {
-                for (lib in knownFridaLibraries) {
-                    if (line.contains(lib)) {
-                        reader.close()
-                        return true
+            BufferedReader(FileReader("/proc/self/maps")).use { reader ->
+                var isLibraryLoaded = false
+                reader.forEachLine { line ->
+                    if (knownFridaLibraries.any { lib -> line.contains(lib) }) {
+                        isLibraryLoaded = true
+                        return@forEachLine
                     }
                 }
+                return isLibraryLoaded
             }
-            reader.close()
         } catch (e: IOException) {
             e.printStackTrace()
         }
