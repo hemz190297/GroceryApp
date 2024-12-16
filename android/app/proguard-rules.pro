@@ -39,7 +39,6 @@
 -keep class com.facebook.react.uimanager.** { *; }
 -keep class com.facebook.hermes.** { *; }
 -keep class com.facebook.jni.** { *; }
--keep class java.io.** { *; }
 
 # Keep native methods (with aggressive obfuscation)
 -keepclasseswithmembernames class * {
@@ -70,12 +69,6 @@
     private void readObject(java.io.ObjectInputStream);
     java.lang.Object writeReplace();
     java.lang.Object readResolve();
-}
-
--keepclassmembers class * extends java.lang.Enum {
-    <fields>;
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
 }
 
 # Advanced string and class protection
