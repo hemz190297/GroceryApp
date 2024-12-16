@@ -4,7 +4,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 
 object SystemCalls {
-    fun detect(): Boolean {
+    fun isDetected(): Boolean {
         val suspiciousSysCalls = arrayOf("ptrace", "mprotect")
         for (sysCall in suspiciousSysCalls) {
             if (isSysCallUsed(sysCall)) {

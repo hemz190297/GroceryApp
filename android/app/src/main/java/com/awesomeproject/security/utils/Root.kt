@@ -7,7 +7,7 @@ import java.io.InputStreamReader
 
 object Root {
 
-    fun detect(): Boolean {
+    fun isDetected(): Boolean {
         return checkRootMethod1() || checkRootMethod2() || checkRootMethod3()
     }
 
