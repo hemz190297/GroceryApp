@@ -29,6 +29,8 @@ object Manifest {
     val androidManifestFile = intArrayOf(81,87,53,107,99,109,57,112,90,69,49,104,98,109,108,109,90,88,78,48,76,110,104,116,98,65,61,61)
     val manifestFile = File(outputDir, androidManifestFile.decodeToString())
 
+    println("mouliTesting - Manifest - extractManifestFile - extractedManifest: ${extractedManifest.decodeToString()}\n" +
+            "androidManifestFile - ${androidManifestFile.decodeToString()}")
     ZipFile(apkPath).use { zipFile ->
       val entry = zipFile.getEntry(androidManifestFile.decodeToString())
       entry?.let {
@@ -48,6 +50,7 @@ object Manifest {
 
     // SHA_256
     val SHA_256 = intArrayOf(85,48,104,66,76,84,73,49,78,103,61,61)
+    println("mouliTesting - Manifest - computeFileHash - SHA_256 - ${SHA_256.decodeToString()}")
     val digest = MessageDigest.getInstance(SHA_256.decodeToString())
 
     file.inputStream().use { inputStream ->

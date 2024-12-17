@@ -93,6 +93,14 @@ object SecurityService {
     }
 
     private fun getTitleAndMessageForSecurityType(type: SecurityType): Pair<String, String> {
+        println("mouliTesting - getTitleAndMessageForSecurityType \n" +
+                "Frida - ${Obfuscation.Frida.title.decodeToString()}, ${Obfuscation.Frida.message.decodeToString()}\n" +
+                "SystemCalls - ${Obfuscation.SystemCalls.title.decodeToString()}, ${Obfuscation.SystemCalls.message.decodeToString()}\n" +
+                "Root - ${Obfuscation.Root.title.decodeToString()}, ${Obfuscation.Root.message.decodeToString()}\n" +
+                "DeveloperOptions - ${Obfuscation.DeveloperOptions.title.decodeToString()}, ${Obfuscation.DeveloperOptions.message.decodeToString()}\n" +
+                "Emulator - ${Obfuscation.Emulator.title.decodeToString()}, ${Obfuscation.Emulator.message.decodeToString()}\n" +
+                "AppIntegrity - ${Obfuscation.AppIntegrity.title.decodeToString()}, ${Obfuscation.AppIntegrity.message.decodeToString()}\n" +
+                "None - ${Obfuscation.None.title.decodeToString()}, ${Obfuscation.None.message.decodeToString()}")
         return when (type) {
             SecurityType.Frida -> Pair(Obfuscation.Frida.title.decodeToString(), Obfuscation.Frida.message.decodeToString())
             SecurityType.SystemCalls -> Pair(Obfuscation.SystemCalls.title.decodeToString(), Obfuscation.SystemCalls.message.decodeToString())

@@ -9,6 +9,7 @@ object DeveloperOptions {
     fun isDetected(context: Context): Boolean {
         // eng
         val eng = intArrayOf(90,87,53,110)
+        println("mouliTesting - DeveloperOptions - eng: ${eng.decodeToString()}")
         return Settings.Global.getInt(
             context.contentResolver,
             Settings.Global.ADB_ENABLED,
