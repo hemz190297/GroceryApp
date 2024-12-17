@@ -27,14 +27,11 @@ object SystemCalls {
             val strace = intArrayOf(99,51,82,121,89,87,78,108,73,67,49,108)
             println("${SECURITY_LOG_TAG.decodeToString()} - SystemCalls.isSysCallUsed - strace: ${strace.decodeToString()}")
             val process = Runtime.getRuntime().exec("${strace.decodeToString()} $sysCallName")
-            val reader = BufferedReader(InputStreamReader(process.inputStream))
-            var line: String
-            while ((reader.readLine().also { line = it }) != null) {
-                if (line.contains(sysCallName)) {
+            process.inputStream.bufferedReader().useLines { lines ->
+                if (lines.any { it.contains(sysCallName) }) {
                     return true
                 }
             }
-            reader.close()
         } catch (e: Exception) {
             e.printStackTrace()
         }

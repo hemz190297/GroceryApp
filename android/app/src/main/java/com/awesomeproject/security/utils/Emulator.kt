@@ -174,21 +174,21 @@ object Emulator {
     // vbox86p
     val vbox86p = intArrayOf(100,109,74,118,101,68,103,50,99,65,61,61)
 
-      println("${SECURITY_LOG_TAG.decodeToString()} - Emulator - checkValidBuild - \n" +
-              "genyMotion - ${genyMotion.decodeToString()}\n" +
-              "unknowm - ${unknown.decodeToString()}\n" +
-              "googleSdk - ${googleSdk.decodeToString()}\n" +
-              "droid4x - ${droid4x.decodeToString()}\n" +
-              "emulator - ${emulator.decodeToString()}\n" +
-              "androidSdkBuiltForX86 - ${androidSdkBuiltForX86.decodeToString()}\n" +
-              "goldfish - ${goldfish.decodeToString()}\n" +
-              "ranchu - ${ranchu.decodeToString()}\n" +
-              "vbox86 - ${vbox86.decodeToString()}\n" +
-              "nox - ${nox.decodeToString()}\n" +
-              "generic - ${generic.decodeToString()}\n" +
-              "sdk - ${sdk.decodeToString()}\n" +
-              "sdkX86 - ${sdkX86.decodeToString()}\n" +
-              "vbox86p - ${vbox86p.decodeToString()}")
+    println("${SECURITY_LOG_TAG.decodeToString()} - Emulator - checkValidBuild - \n" +
+            "genyMotion - ${genyMotion.decodeToString()}\n" +
+            "unknowm - ${unknown.decodeToString()}\n" +
+            "googleSdk - ${googleSdk.decodeToString()}\n" +
+            "droid4x - ${droid4x.decodeToString()}\n" +
+            "emulator - ${emulator.decodeToString()}\n" +
+            "androidSdkBuiltForX86 - ${androidSdkBuiltForX86.decodeToString()}\n" +
+            "goldfish - ${goldfish.decodeToString()}\n" +
+            "ranchu - ${ranchu.decodeToString()}\n" +
+            "vbox86 - ${vbox86.decodeToString()}\n" +
+            "nox - ${nox.decodeToString()}\n" +
+            "generic - ${generic.decodeToString()}\n" +
+            "sdk - ${sdk.decodeToString()}\n" +
+            "sdkX86 - ${sdkX86.decodeToString()}\n" +
+            "vbox86p - ${vbox86p.decodeToString()}")
 
     return (Build.MANUFACTURER.lowercase().contains(genyMotion.decodeToString())
       || Build.MANUFACTURER.lowercase().contains(unknown.decodeToString())

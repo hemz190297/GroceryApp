@@ -35,14 +35,9 @@ object Frida {
     private fun isProcessRunning(processName: String): Boolean {
         try {
             val process = Runtime.getRuntime().exec("ps")
-            val reader = BufferedReader(InputStreamReader(process.inputStream))
-            var line: String
-            while ((reader.readLine().also { line = it }) != null) {
-                if (line.contains(processName)) {
-                    return true
-                }
+            BufferedReader(InputStreamReader(process.inputStream)).use { reader ->
+                reader.lineSequence().any { it.contains(processName) }
             }
-            reader.close()
         } catch (e: Exception) {
             e.printStackTrace()
         }

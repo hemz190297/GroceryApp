@@ -70,8 +70,9 @@ object Root {
             val su = intArrayOf(99,51,85,61)
             println("${SECURITY_LOG_TAG.decodeToString()} - checkRootMethod3 - ${arrayOf(which.decodeToString(), su.decodeToString()).joinToString(", ")}")
             process = Runtime.getRuntime().exec(arrayOf(which.decodeToString(), su.decodeToString()))
-            val `in` = BufferedReader(InputStreamReader(process.inputStream))
-            return `in`.readLine() != null
+            return process.inputStream.bufferedReader().useLines { lines ->
+                lines.any()
+            }
         } catch (t: Throwable) {
             return false
         } finally {
