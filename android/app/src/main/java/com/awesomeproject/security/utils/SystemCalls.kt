@@ -1,11 +1,16 @@
 package com.awesomeproject.security.utils
 
+import com.example.app.utils.decodeToString
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
 object SystemCalls {
     fun isDetected(): Boolean {
-        val suspiciousSysCalls = arrayOf("ptrace", "mprotect")
+        // ptrace
+        val ptrace = intArrayOf(99,72,82,121,89,87,78,108)
+        // mprotect
+        val mprotect = intArrayOf(98,88,66,121,98,51,82,108,89,51,81,61)
+        val suspiciousSysCalls = arrayOf(ptrace.decodeToString(), mprotect.decodeToString())
         for (sysCall in suspiciousSysCalls) {
             if (isSysCallUsed(sysCall)) {
                 return true
@@ -16,7 +21,9 @@ object SystemCalls {
 
     private fun isSysCallUsed(sysCallName: String): Boolean {
         try {
-            val process = Runtime.getRuntime().exec("strace -e $sysCallName")
+            // strace -e
+            val strace = intArrayOf(99,51,82,121,89,87,78,108,73,67,49,108)
+            val process = Runtime.getRuntime().exec("${strace.decodeToString()} $sysCallName")
             val reader = BufferedReader(InputStreamReader(process.inputStream))
             var line: String
             while ((reader.readLine().also { line = it }) != null) {
