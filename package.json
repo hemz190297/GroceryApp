@@ -24,6 +24,7 @@
     "adb-open-app": "adb shell am start -n com.awesomeproject/com.awesomeproject.MainApplication",
     "adb-close-app": "adb shell am force-stop com.awesomeproject",
     "adb-connect": "adb reverse tcp:8081 tcp:8081",
+    "adb-connect-dev-tools": "adb reverse tcp:8097 tcp:8097",
     "adb-uninstall": "adb uninstall com.awesomeproject",
     "clean-install-android": "remove-node-modules && npm install -f && cd android && gradlew clean && cd .. && npm run android",
     "clean-install-android-release": "remove-node-modules && npm install -f && cd android && gradlew clean && gradlew installRelease && cd .."

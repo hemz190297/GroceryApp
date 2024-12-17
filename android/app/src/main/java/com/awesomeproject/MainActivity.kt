@@ -28,10 +28,10 @@ class MainActivity : ReactActivity() {
         super.onCreate(null)
     }
 
-    override fun onResume() {
+    /*override fun onResume() {
         super.onResume()
         SecurityService.checkAndBlockHacker(this, { title, message ->
             Toast.makeText(this@MainActivity, title, Toast.LENGTH_SHORT).show()
         })
-    }
+    }*/
 }
