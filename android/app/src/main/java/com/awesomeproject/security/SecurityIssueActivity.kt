@@ -28,9 +28,9 @@ class SecurityIssueActivity : AppCompatActivity() {
         val extras = intent.extras
         if (extras != null) {
             val issueTitle = findViewById<TextView>(R.id.tv_issue_title)
-            issueTitle.text = extras.getString("title")
+            issueTitle.text = extras.getString(TITLE)
             val issueDescription = findViewById<TextView>(R.id.tv_issue_description)
-            issueDescription.text = extras.getString("message")
+            issueDescription.text = extras.getString(MESSAGE)
         }
 
         val closeAppButton = findViewById<Button>(R.id.btn_close_app)
@@ -42,6 +42,13 @@ class SecurityIssueActivity : AppCompatActivity() {
     private fun closeApp() {
         finishAffinity()
         exitProcess(0)
+    }
+
+    companion object {
+        // title in the form of HEX
+        const val TITLE = "7469746c65"
+        // message in the form of HEX
+        const val MESSAGE = "6d657373616765"
     }
 
 } // close app on back button press..
