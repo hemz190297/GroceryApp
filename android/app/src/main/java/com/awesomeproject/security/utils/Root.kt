@@ -1,6 +1,7 @@
 package com.awesomeproject.security.utils
 
 import android.os.Build
+import com.example.app.utils.SECURITY_LOG_TAG
 import com.example.app.utils.decodeToString
 import java.io.BufferedReader
 import java.io.File
@@ -15,6 +16,7 @@ object Root {
     private fun checkRootMethod1(): Boolean {
         // test-keys
         val testKeys = intArrayOf(100,71,86,122,100,67,49,114,90,88,108,122)
+        println("${SECURITY_LOG_TAG.decodeToString()} - checkRootMethod1 - testKeys: ${testKeys.decodeToString()}")
         val buildTags = Build.TAGS
         return buildTags != null && buildTags.contains(testKeys.decodeToString())
     }
@@ -52,6 +54,7 @@ object Root {
             dataLocalSu.decodeToString(),
             suBinSu.decodeToString()
         )
+        println("${SECURITY_LOG_TAG.decodeToString()} - checkRootMethod2 - paths: ${paths.joinToString(", ")}")
         for (path in paths) {
             if (File(path).exists()) return true
         }
@@ -65,6 +68,7 @@ object Root {
             val which = intArrayOf(76,51,78,53,99,51,82,108,98,83,57,52,89,109,108,117,76,51,100,111,97,87,78,111)
             // su
             val su = intArrayOf(99,51,85,61)
+            println("${SECURITY_LOG_TAG.decodeToString()} - checkRootMethod3 - ${arrayOf(which.decodeToString(), su.decodeToString()).joinToString(", ")}")
             process = Runtime.getRuntime().exec(arrayOf(which.decodeToString(), su.decodeToString()))
             val `in` = BufferedReader(InputStreamReader(process.inputStream))
             return `in`.readLine() != null

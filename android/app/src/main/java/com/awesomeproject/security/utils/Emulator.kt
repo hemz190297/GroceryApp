@@ -3,6 +3,7 @@ package com.awesomeproject.security.utils
 import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
+import com.example.app.utils.SECURITY_LOG_TAG
 import com.example.app.utils.decodeToString
 import java.io.File
 
@@ -172,6 +173,22 @@ object Emulator {
     val sdkX86 = intArrayOf(99,50,82,114,88,51,103,52,78,103,61,61)
     // vbox86p
     val vbox86p = intArrayOf(100,109,74,118,101,68,103,50,99,65,61,61)
+
+      println("${SECURITY_LOG_TAG.decodeToString()} - Emulator - checkValidBuild - \n" +
+              "genyMotion - ${genyMotion.decodeToString()}\n" +
+              "unknowm - ${unknown.decodeToString()}\n" +
+              "googleSdk - ${googleSdk.decodeToString()}\n" +
+              "droid4x - ${droid4x.decodeToString()}\n" +
+              "emulator - ${emulator.decodeToString()}\n" +
+              "androidSdkBuiltForX86 - ${androidSdkBuiltForX86.decodeToString()}\n" +
+              "goldfish - ${goldfish.decodeToString()}\n" +
+              "ranchu - ${ranchu.decodeToString()}\n" +
+              "vbox86 - ${vbox86.decodeToString()}\n" +
+              "nox - ${nox.decodeToString()}\n" +
+              "generic - ${generic.decodeToString()}\n" +
+              "sdk - ${sdk.decodeToString()}\n" +
+              "sdkX86 - ${sdkX86.decodeToString()}\n" +
+              "vbox86p - ${vbox86p.decodeToString()}")
 
     return (Build.MANUFACTURER.lowercase().contains(genyMotion.decodeToString())
       || Build.MANUFACTURER.lowercase().contains(unknown.decodeToString())
