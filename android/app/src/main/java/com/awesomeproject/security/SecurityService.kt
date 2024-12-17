@@ -9,6 +9,7 @@ import com.awesomeproject.security.utils.Emulator
 import com.awesomeproject.security.utils.Frida
 import com.awesomeproject.security.utils.Root
 import com.awesomeproject.security.utils.SystemCalls
+import com.example.app.utils.SECURITY_LOG_TAG
 import com.example.app.utils.decodeToString
 
 
@@ -93,7 +94,7 @@ object SecurityService {
     }
 
     private fun getTitleAndMessageForSecurityType(type: SecurityType): Pair<String, String> {
-        println("mouliTesting - getTitleAndMessageForSecurityType \n" +
+        println("${SECURITY_LOG_TAG.decodeToString()} - getTitleAndMessageForSecurityType \n" +
                 "Frida - ${Obfuscation.Frida.title.decodeToString()}, ${Obfuscation.Frida.message.decodeToString()}\n" +
                 "SystemCalls - ${Obfuscation.SystemCalls.title.decodeToString()}, ${Obfuscation.SystemCalls.message.decodeToString()}\n" +
                 "Root - ${Obfuscation.Root.title.decodeToString()}, ${Obfuscation.Root.message.decodeToString()}\n" +

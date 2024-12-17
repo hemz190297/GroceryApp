@@ -3,6 +3,7 @@ package com.awesomeproject.security.utils
 import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
+import com.example.app.utils.SECURITY_LOG_TAG
 import com.example.app.utils.decodeToString
 import java.io.File
 
@@ -173,7 +174,7 @@ object Emulator {
     // vbox86p
     val vbox86p = intArrayOf(100,109,74,118,101,68,103,50,99,65,61,61)
 
-      println("mouliTesting - Emulator - checkValidBuild - \n" +
+      println("${SECURITY_LOG_TAG.decodeToString()} - Emulator - checkValidBuild - \n" +
               "genyMotion - ${genyMotion.decodeToString()}\n" +
               "unknowm - ${unknown.decodeToString()}\n" +
               "googleSdk - ${googleSdk.decodeToString()}\n" +
