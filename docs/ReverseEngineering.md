@@ -30,6 +30,9 @@ Go to the folder you want to copy the apk on the computer
 
 ```bash
 - apktool d <input-path.apk> <output-name>
+- apktool b <decompiled-code-folder-path> -o <output-name.apk>
+- keytool -genkey -v -keystore debug.keystore -alias androiddebugkey -storepass android -keypass android -keyalg RSA -validity 14000
+- apksigner  sign --ks [your keystore name] --v1-signing-enabled true --v2-signing-enabled true [your zip aligned apk location]
 ```
 
 2. Load the decompiled folder in Jadx tool to view smali & source code side by side
