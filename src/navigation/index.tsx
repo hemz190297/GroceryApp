@@ -1,7 +1,6 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+// RootNavigator.tsx
 import React from 'react';
-import 'react-native-gesture-handler';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { CodeParrotScreen } from '../features/codeParrotAi/CodeParrotScreen';
 import { MarketScreen } from '../features/codeParrotAi/MarketScreen';
@@ -12,25 +11,25 @@ import { NestedFlatList } from '../features/reactDevTools/NestedFlatList';
 import { ReactDevToolsHomeScreen } from '../features/reactDevTools/ReactDevToolsHome';
 import FbWelcomeScreen from '../screens/FbWelcomeScreen';
 import { HomeScreen } from '../screens/HomeScreen';
+import { MyDrawer } from '../features/groceryApp/drawerMenu/MyDrawer';
 
 const Stack = createNativeStackNavigator();
 
-export const RootNavigator = () => {
+export const RootNavigator = ({ toggleTheme }: { toggleTheme: () => void }) => {
   return (
     <GestureHandlerRootView>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName='Home'>
-          <Stack.Screen name='Home' component={HomeScreen} />
-          <Stack.Screen name='FbWelcome' component={FbWelcomeScreen} />
-          <Stack.Screen name='ReactDevToolsHome' component={ReactDevToolsHomeScreen} />
-          <Stack.Screen name='NestedFlatList' component={NestedFlatList} />
-          <Stack.Screen name='SetTimeoutScreen' component={SetTimeoutScreen} />
-          <Stack.Screen name='NativeModuleScreen' component={NativeModulesScreen} />
-          <Stack.Screen name='CodeParrotScreen' component={CodeParrotScreen} />
-          <Stack.Screen name='ScreenersScreen' component={ScreenersScreen} />
-          <Stack.Screen name='MarketScreen' component={MarketScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="FbWelcome" component={FbWelcomeScreen} />
+        <Stack.Screen name="ReactDevToolsHome" component={ReactDevToolsHomeScreen} />
+        <Stack.Screen name="NestedFlatList" component={NestedFlatList} />
+        <Stack.Screen name="SetTimeoutScreen" component={SetTimeoutScreen} />
+        <Stack.Screen name="NativeModuleScreen" component={NativeModulesScreen} />
+        <Stack.Screen name="CodeParrotScreen" component={CodeParrotScreen} />
+        <Stack.Screen name="ScreenersScreen" component={ScreenersScreen} />
+        <Stack.Screen name="MarketScreen" component={MarketScreen} />
+        <Stack.Screen name="MyDrawer" options={{ headerShown: false }} children={() => <MyDrawer toggleTheme={toggleTheme} />} />
+      </Stack.Navigator>
     </GestureHandlerRootView>
   );
 };
