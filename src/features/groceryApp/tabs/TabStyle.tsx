@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Image } from 'react-native'
+import React from 'react'
+import { useTheme } from 'react-native-paper';
 
 export default function TabStyle() {
     const homeStyle = StyleSheet.create({

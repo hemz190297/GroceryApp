@@ -12,6 +12,7 @@ import { ReactDevToolsHomeScreen } from '../features/reactDevTools/ReactDevTools
 import FbWelcomeScreen from '../screens/FbWelcomeScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { MyDrawer } from '../features/groceryApp/drawerMenu/MyDrawer';
+import ProductDetails from '../features/groceryApp/screens/ProductDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ export const RootNavigator = ({ toggleTheme }: { toggleTheme: () => void }) => {
         <Stack.Screen name="CodeParrotScreen" component={CodeParrotScreen} />
         <Stack.Screen name="ScreenersScreen" component={ScreenersScreen} />
         <Stack.Screen name="MarketScreen" component={MarketScreen} />
+        <Stack.Screen name="ProductDetails" component={ProductDetails} options={{ headerShown: false }} />
         <Stack.Screen name="MyDrawer" options={{ headerShown: false }} children={() => <MyDrawer toggleTheme={toggleTheme} />} />
       </Stack.Navigator>
     </GestureHandlerRootView>

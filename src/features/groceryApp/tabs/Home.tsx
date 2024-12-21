@@ -1,30 +1,41 @@
-import { View, Text, FlatList, Image } from 'react-native'
+import { View, Text, FlatList, Image, TouchableOpacity, Keyboard } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import Header from '../common/Header'
-import TabStyle from './TabStyle'
+import tabStyle from './TabStyle'
+import { useDispatch } from 'react-redux'
+import { addProducts } from '../redux/slices/ProductSlice'
+import { json } from '../../../../e2e/jest.config'
 
 const Home = () => {
     const navigation = useNavigation();
     const [product, setProduct] = useState([]);
-    const { homeStyle } = TabStyle();
+    const { homeStyle } = tabStyle();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         getProducts();
     }, [])
 
-    const getProducts = () => {
-        fetch('https://fakestoreapi.com/products')
-            .then(res => res.json())
-            .then(json => setProduct(json))
-    }
+
+
+
+    const getProducts = async () => {
+        try {
+            const response = await fetch('https://fakestoreapi.com/products');
+            const data = await response.json();
+            dispatch(addProducts(data));
+        } catch (error) {
+            console.error('Error fetching products::::', error);
+        }
+    };
     return (
-        <View>
+        <View style={{}}>
             <Header leftIcon={require('../common/images/main-menu.png')} rightIcon={require('../common/images/menu.png')}
                 title={'Grocery App'} onClickLeftIcon={() => { navigation.openDrawer(); }} />
             <FlatList data={product} renderItem={({ item, index }: any) => {
                 return (
-                    <View style={homeStyle.container}>
+                    <TouchableOpacity activeOpacity={1} style={homeStyle.container} onPress={() => navigation.navigate('ProductDetails', { data: item })}>
                         <Image source={{ uri: item.image }} style={homeStyle.imageStyle} />
                         <View style={homeStyle.infoView}>
                             <Text style={{ fontSize: 14, fontWeight: "bold" }}>{item.title.length > 25 ? item.title.substring(0, 25) + '...' : item.title}</Text>
@@ -39,7 +50,8 @@ const Home = () => {
                                 </View>
                             </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>
+
                 )
             }
             } />

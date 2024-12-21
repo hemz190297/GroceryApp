@@ -1,4 +1,3 @@
-import { Theme } from "@react-navigation/native";
 import { Dimensions, StyleSheet } from "react-native";
 import { useTheme } from "react-native-paper";
 const { width } = Dimensions.get('window')
@@ -14,7 +13,6 @@ export default function HeaderStyle() {
             alignItems: "center",
             paddingHorizontal: 16,
             flexDirection: "row",
-
         },
         textColor: {
             color: '#fff'
@@ -26,7 +24,8 @@ export default function HeaderStyle() {
         },
         IconStyle: {
             height: 24,
-            width: 24
+            width: 24,
+            tintColor: "#fff"
         },
         rightIconStyle: {
             height: 24,
