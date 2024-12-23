@@ -13,7 +13,7 @@ export default function ProductDetailStyle() {
         imageContainer: {
             flexDirection: "row",
             flex: 1,
-            marginTop: 40,
+            marginTop: 20,
             justifyContent: "center",
         },
         productImage: {

@@ -1,5 +1,5 @@
 import { View, TouchableOpacity, Image, ImageSourcePropType, Text } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import HeaderStyle from './HeaderStyle';
 import { useSelector } from 'react-redux';
 
@@ -14,6 +14,7 @@ type HeaderProps = {
 const Header = ({ leftIcon, rightIcon, title, onClickLeftIcon, onClickRightIcon }: HeaderProps) => {
     const { headerStyle } = HeaderStyle();
     const cartList = useSelector((state: any) => state.addToCartListState.data);
+    const [cartLength, setCartLength] = useState(false);
 
     return (
         <View style={headerStyle.header}>
@@ -23,9 +24,10 @@ const Header = ({ leftIcon, rightIcon, title, onClickLeftIcon, onClickRightIcon 
             <Text style={headerStyle.titleText}>{title}</Text>
             <TouchableOpacity onPress={onClickRightIcon}>
                 <Image source={rightIcon} style={headerStyle.rightIconStyle} />
-                <View style={{ borderRadius: 30, backgroundColor: 'red', position: "absolute", left: 16, bottom: 12, height: 17, width: 17, justifyContent: "center", alignItems: "center", flex: 1 }}>
+                {cartLength && (<View style={{ borderRadius: 30, backgroundColor: 'red', position: "absolute", left: 16, bottom: 12, height: 17, width: 17, justifyContent: "center", alignItems: "center", flex: 1 }}>
                     <Text style={{ textAlign: "center", position: "absolute", fontSize: 10, color: "#fff" }}>{cartList.length}</Text>
-                </View>
+                </View>)}
+
             </TouchableOpacity>
         </View>
     );

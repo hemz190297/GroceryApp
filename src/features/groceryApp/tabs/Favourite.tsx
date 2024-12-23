@@ -3,11 +3,11 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import Header from '../common/Header'
 import { useNavigation } from '@react-navigation/native'
-import tabStyle from './TabStyle'
+import TabStyle from './TabStyle'
 
 const Favourite = () => {
     const wishData = useSelector((state: any) => state.wishListState)
-    const { homeStyle } = tabStyle();
+    const { homeStyle } = TabStyle();
     const [wishlistProducts, setWishListProducts] = useState(wishData.data);
     const navigation = useNavigation();
     return (

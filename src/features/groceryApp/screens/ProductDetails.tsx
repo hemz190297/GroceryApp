@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { addWishList } from '../redux/slices/WishListSlice'
 import { addToCartList } from '../redux/slices/AddToCartSlice'
 import ProductDetailStyle from './ProductDetailsStyle'
+import { cardProducts } from '../redux/slices/CartSlice'
 
 const ProductDetails = () => {
     const navigation = useNavigation();
@@ -17,7 +18,7 @@ const ProductDetails = () => {
     return (
         <View style={productStyle.mainContainer}>
             <Header leftIcon={require('../common/images/back.png')} rightIcon={require('../common/images/cart.png')}
-                title={'Product Details'} onClickLeftIcon={() => { navigation.goBack() }} />
+                title={'Product Details'} onClickLeftIcon={() => { navigation.goBack() }} onClickRightIcon={() => { dispatch(cardProducts(route.params.data)); navigation.navigate('CartScreen') }} />
 
             <View style={productStyle.imageContainer}>
                 <Image source={{ uri: route.params.data.image }} style={productStyle.productImage} resizeMode="stretch" />
