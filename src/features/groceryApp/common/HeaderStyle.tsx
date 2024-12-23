@@ -5,15 +5,7 @@ const { width } = Dimensions.get('window')
 export default function HeaderStyle() {
     const theme = useTheme();
     const headerStyle = StyleSheet.create({
-        header: {
-            width: width,
-            height: 40,
-            backgroundColor: theme.colors.header,
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingHorizontal: 16,
-            flexDirection: "row",
-        },
+        header: { backgroundColor: theme.colors.header, justifyContent: "space-between", flexDirection: "row", alignItems: "center", padding: 12, marginTop: 20 },
         textColor: {
             color: '#fff'
         },

@@ -1,22 +1,22 @@
-import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, Image } from 'react-native'
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import Header from '../common/Header'
-import { useNavigation } from '@react-navigation/native'
-import tabStyle from './TabStyle'
+import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import tabStyle from '../../groceryApp/tabs/TabStyle'
+import Header from '../common/Header';
 
-const Favourite = () => {
-    const wishData = useSelector((state: any) => state.wishListState)
+const CartListScreen = () => {
+    const wishData = useSelector((state: any) => state.addToCartListState)
     const { homeStyle } = tabStyle();
-    const [wishlistProducts, setWishListProducts] = useState(wishData.data);
+    const [cartLiastProduct, setCartLiastProduct] = useState(wishData.data);
     const navigation = useNavigation();
     return (
         <View>
             <Header leftIcon={require('../common/images/back.png')} rightIcon={require('../common/images/cart.png')}
-                title={'Favorites'} onClickLeftIcon={() => { navigation.goBack() }} onClickRightIcon={() => navigation.navigate('CartScreen')} />
-            <View style={{ marginTop: 60 }}>
+                title={'Add To Cart'} onClickLeftIcon={() => { navigation.goBack(); }} />
+            <View style={{ marginTop: 20 }}>
                 <FlatList
-                    data={wishlistProducts}
+                    data={cartLiastProduct}
                     renderItem={({ item }) => (
                         <TouchableOpacity
                             activeOpacity={1}
@@ -65,4 +65,5 @@ const Favourite = () => {
         </View>
     )
 }
-export default Favourite
+
+export default CartListScreen

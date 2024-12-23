@@ -1,32 +1,45 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import Header from '../common/Header'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Button } from '../../../components/Button'
+import { useDispatch } from 'react-redux'
+import { addWishList } from '../redux/slices/WishListSlice'
+import { addToCartList } from '../redux/slices/AddToCartSlice'
+import ProductDetailStyle from './ProductDetailsStyle'
 
 const ProductDetails = () => {
     const navigation = useNavigation();
     const route = useRoute();
-    return (<>
-        <View style={{ marginTop: 20 }}>
+    const dispatch = useDispatch();
+    const { productStyle } = ProductDetailStyle();
+
+    return (
+        <View style={productStyle.mainContainer}>
             <Header leftIcon={require('../common/images/back.png')} rightIcon={require('../common/images/cart.png')}
-                title={'Product Details'} onClickLeftIcon={() => { navigation.goBack(); }} />
+                title={'Product Details'} onClickLeftIcon={() => { navigation.goBack() }} />
 
+            <View style={productStyle.imageContainer}>
+                <Image source={{ uri: route.params.data.image }} style={productStyle.productImage} resizeMode="stretch" />
+                <TouchableOpacity style={productStyle.heartImage}
+                    onPress={() => { dispatch(addWishList(route.params.data)) }}>
+                    <Image source={require('../common/images/heart.png')} style={productStyle.heartImageSize} />
+                </TouchableOpacity>
+            </View>
 
-        </View>
-        <View style={{ flex: 1, alignItems: "center", backgroundColor: "#fff" }}>
-            <Image source={{ uri: route.params.data.image }} style={{ height: 300, width: 300 }} resizeMode="stretch" />
-            <View style={{ paddingHorizontal: 16 }}>
-                <Text style={{ fontSize: 20, fontStyle: "italic" }}>{route.params.data.title}</Text>
-                <Text style={{ fontSize: 14, fontStyle: "italic", fontFamily: "sans-serif", marginTop: 10 }}>{route.params.data.description}</Text>
-                <View style={{ flexDirection: "row" }}>
-                    <Text style={{ fontSize: 20, fontFamily: "sans-serif", marginTop: 10 }}>Price: </Text>
-                    <Text style={{ fontSize: 20, fontFamily: "sans-serif", marginTop: 10, color: "green" }}>${route.params.data.price}</Text>
+            <View style={{ paddingHorizontal: 16, flex: 1 }}>
+                <Text style={productStyle.titleTxt}>{route.params.data.title}</Text>
+                <Text style={productStyle.discription}>{route.params.data.description}</Text>
+                <View style={productStyle.flexRow}>
+                    <Text style={productStyle.priceTxt}>Price: </Text>
+                    <Text style={productStyle.price}>${route.params.data.price}</Text>
                 </View>
             </View>
-            <Button title='Add To Cart' onPress={() => navigation.navigate('')} />
-        </View>
-    </>)
-}
 
+            <View style={productStyle.addToCartButton}>
+                <Button title='Add To Cart' onPress={() => { dispatch(addToCartList(route.params.data)) }} />
+            </View>
+        </View>
+    )
+}
 export default ProductDetails

@@ -5,7 +5,6 @@ import Header from '../common/Header'
 import tabStyle from './TabStyle'
 import { useDispatch } from 'react-redux'
 import { addProducts } from '../redux/slices/ProductSlice'
-import { json } from '../../../../e2e/jest.config'
 
 const Home = () => {
     const navigation = useNavigation();
@@ -17,44 +16,44 @@ const Home = () => {
         getProducts();
     }, [])
 
-
-
-
     const getProducts = async () => {
         try {
             const response = await fetch('https://fakestoreapi.com/products');
             const data = await response.json();
+            setProduct(data)
+            data.map((item) => item.qty = 1)
             dispatch(addProducts(data));
         } catch (error) {
             console.error('Error fetching products::::', error);
         }
     };
     return (
-        <View style={{}}>
+        <View style={{ flex: 1 }}>
             <Header leftIcon={require('../common/images/main-menu.png')} rightIcon={require('../common/images/menu.png')}
-                title={'Grocery App'} onClickLeftIcon={() => { navigation.openDrawer(); }} />
-            <FlatList data={product} renderItem={({ item, index }: any) => {
-                return (
-                    <TouchableOpacity activeOpacity={1} style={homeStyle.container} onPress={() => navigation.navigate('ProductDetails', { data: item })}>
-                        <Image source={{ uri: item.image }} style={homeStyle.imageStyle} />
-                        <View style={homeStyle.infoView}>
-                            <Text style={{ fontSize: 14, fontWeight: "bold" }}>{item.title.length > 25 ? item.title.substring(0, 25) + '...' : item.title}</Text>
-                            <View>
-                                <Text style={{ fontSize: 12, fontWeight: "light" }}>{item.description.length > 35 ? item.description.substring(0, 80) + '...' : item.description}</Text>
-                            </View>
-                            <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-                                <Text style={{ color: "#068c18", fontSize: 18, fontWeight: "thin" }}>$ {item.price}</Text>
-                                <View style={{ flexDirection: "row" }}>
-                                    <Text style={{ color: "#000", fontSize: 18, fontWeight: "thin" }}>{item.rating.rate}</Text>
-                                    <Image source={require('../common/images/star.png')} style={{ height: 10, width: 10 }} />
+                title={'Grocery App'} onClickLeftIcon={() => { navigation.openDrawer(); }} onClickRightIcon={() => navigation.navigate('CartListScreen')} />
+            <View >
+                <FlatList data={product} renderItem={({ item, index }: any) => {
+                    return (
+                        <TouchableOpacity activeOpacity={1} style={homeStyle.container} onPress={() => navigation.navigate('ProductDetails', { data: item })}>
+                            <Image source={{ uri: item.image }} style={homeStyle.imageStyle} />
+                            <View style={homeStyle.infoView}>
+                                <Text style={{ fontSize: 14, fontWeight: "bold" }}>{item.title.length > 25 ? item.title.substring(0, 25) + '...' : item.title}</Text>
+                                <View>
+                                    <Text style={{ fontSize: 12, fontWeight: "light" }}>{item.description.length > 35 ? item.description.substring(0, 80) + '...' : item.description}</Text>
+                                </View>
+                                <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                                    <Text style={{ color: "#068c18", fontSize: 18, fontWeight: "thin" }}>$ {item.price}</Text>
+                                    <View style={{ flexDirection: "row" }}>
+                                        <Text style={{ color: "#000", fontSize: 18, fontWeight: "thin" }}>{item.rating.rate}</Text>
+                                        <Image source={require('../common/images/star.png')} style={{ height: 10, width: 10 }} />
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                    </TouchableOpacity>
-
-                )
-            }
-            } />
+                        </TouchableOpacity>
+                    )
+                }
+                } />
+            </View>
         </View>
     )
 }

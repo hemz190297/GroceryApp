@@ -14,7 +14,6 @@ import {
 import { useSelector } from 'react-redux';
 import Header from '../common/Header';
 import { useNavigation } from '@react-navigation/native';
-
 import tabStyle from './TabStyle';
 
 const Search = () => {
