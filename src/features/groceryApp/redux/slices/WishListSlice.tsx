@@ -7,11 +7,12 @@ const WishListSlice = createSlice({
         isLoading: false,
     },
     reducers: {
-        addWishList(state, action) {
+        addWishList(state = initialState, action) {
             let productWish = state.data;
             productWish.push(action.payload);
             state.data = productWish;
         },
+
     },
 });
 

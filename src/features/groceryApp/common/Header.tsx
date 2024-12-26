@@ -1,7 +1,7 @@
-import { View, TouchableOpacity, Image, ImageSourcePropType, Text } from 'react-native';
-import React, { useState } from 'react';
-import HeaderStyle from './HeaderStyle';
+import React, { useState, useEffect } from 'react';
+import { View, TouchableOpacity, Image, Text, ImageSourcePropType } from 'react-native';
 import { useSelector } from 'react-redux';
+import HeaderStyle from './HeaderStyle';
 
 type HeaderProps = {
     leftIcon: ImageSourcePropType;
@@ -9,27 +9,45 @@ type HeaderProps = {
     title: string;
     onClickLeftIcon: () => void;
     onClickRightIcon: () => void;
+    isCart: boolean;
 };
 
-const Header = ({ leftIcon, rightIcon, title, onClickLeftIcon, onClickRightIcon }: HeaderProps) => {
+const Header: React.FC<HeaderProps> = ({
+    leftIcon,
+    rightIcon,
+    title,
+    onClickLeftIcon,
+    onClickRightIcon,
+    isCart
+}) => {
     const { headerStyle } = HeaderStyle();
     const cartList = useSelector((state: any) => state.addToCartListState.data);
-    const [cartLength, setCartLength] = useState(false);
+    const [cartLength, setCartLength] = useState(cartList.length);
+
+    useEffect(() => {
+        setCartLength(cartList.length);
+    }, [cartList]);
 
     return (
         <View style={headerStyle.header}>
             <TouchableOpacity onPress={onClickLeftIcon}>
-                <Image source={leftIcon} style={headerStyle.IconStyle} />
+                <Image source={leftIcon} style={headerStyle.iconStyle} />
             </TouchableOpacity>
-            <Text style={headerStyle.titleText}>{title}</Text>
-            <TouchableOpacity onPress={onClickRightIcon}>
-                <Image source={rightIcon} style={headerStyle.rightIconStyle} />
-                {cartLength && (<View style={{ borderRadius: 30, backgroundColor: 'red', position: "absolute", left: 16, bottom: 12, height: 17, width: 17, justifyContent: "center", alignItems: "center", flex: 1 }}>
-                    <Text style={{ textAlign: "center", position: "absolute", fontSize: 10, color: "#fff" }}>{cartList.length}</Text>
-                </View>)}
 
-            </TouchableOpacity>
+            <Text style={headerStyle.titleText}>{title}</Text>
+
+            {!isCart && (
+                <TouchableOpacity onPress={onClickRightIcon} style={headerStyle.rightIconContainer}>
+                    <Image source={rightIcon} style={headerStyle.rightIconStyle} />
+                    {cartLength > 0 && (
+                        <View style={headerStyle.cartBadge}>
+                            <Text style={headerStyle.cartBadgeText}>{cartLength}</Text>
+                        </View>
+                    )}
+                </TouchableOpacity>
+            )}
         </View>
     );
 };
+
 export default Header;

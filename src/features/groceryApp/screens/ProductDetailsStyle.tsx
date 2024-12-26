@@ -60,7 +60,7 @@ export default function ProductDetailStyle() {
         },
         addToCartButton: {
             margin: 16,
-            marginBottom: 30
+            marginBottom: 60
         }
     })
     return {

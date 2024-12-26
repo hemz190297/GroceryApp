@@ -7,7 +7,7 @@ const CartListSlice = createSlice({
         isLoading: false,
     },
     reducers: {
-        addToCartList(state, action) {
+        addToCartList(state = initialState, action) {
             let isExist = false;
             let cartList = state.data;
             cartList.map(item => {
@@ -24,4 +24,7 @@ const CartListSlice = createSlice({
 });
 
 export const { addToCartList } = CartListSlice.actions;
-export default CartListSlice.reducer; 
+export default CartListSlice.reducer;
+
+
+

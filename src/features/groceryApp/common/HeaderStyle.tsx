@@ -24,6 +24,31 @@ export default function HeaderStyle() {
             width: 24,
             tintColor: "#fff"
         },
+        iconStyle: {
+            width: 24,
+            height: 24,
+            tintColor: '#fff',
+        },
+        rightIconContainer: {
+            position: 'relative',
+        },
+        cartBadge: {
+            position: 'absolute',
+            bottom: -4,
+            left: 12,
+            backgroundColor: 'red',
+            borderRadius: 8.5,
+            width: 17,
+            height: 17,
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        cartBadgeText: {
+            color: '#fff',
+            fontSize: 10,
+            fontWeight: 'bold',
+            textAlign: 'center',
+        },
 
     })
     return {
