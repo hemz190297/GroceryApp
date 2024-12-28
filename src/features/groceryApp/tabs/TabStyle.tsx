@@ -18,6 +18,7 @@ export default function TabStyle() {
         descriptionTxt: { fontSize: 14, color: 'gray' },
         subContainer: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
         qtyContainer: { flexDirection: 'row', alignItems: 'center' },
+        qtyContainerCenter: { flexDirection: 'row', alignItems: 'center', justifyContent: "center" },
         qtyTxt: { marginHorizontal: 10, fontSize: 16 },
         touchable: { padding: 5 },
         mainContainer: { flex: 1, padding: 10 },
@@ -27,8 +28,8 @@ export default function TabStyle() {
 
         priceTxt: { color: '#068c18', fontSize: 18, fontWeight: 'thin' },
         imageCart: { justifyContent: "center", alignItems: "center", flexDirection: "row", gap: 10 },
-        QtyTouchable: { height: 30, width: 30, borderWidth: 1, borderRadius: 5, alignItems: "center", justifyContent: "center" },
-        qtyText: { fontSize: 12, color: "#000" },
+        QtyTouchable: { height: 30, width: 30, borderWidth: 1, borderRadius: 5, alignItems: "center", justifyContent: "center", marginTop: 5 },
+        qtyText: { fontSize: 12, color: "#000", marginHorizontal: 5 },
         flexDirectionRow: { flexDirection: "row" },
 
     })

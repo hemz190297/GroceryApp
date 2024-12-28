@@ -15,7 +15,7 @@ export type Product = {
 };
 
 const CartListScreen: React.FC = () => {
-    const cartData = useSelector((state: any) => state.addToCartListState.data);
+    const cartData = useSelector((state: any) => state.addToCartListState?.data || []);
     const { homeStyle } = tabStyle();
     const [cartListProducts, setCartListProducts] = useState<Product[]>([]);
     const navigation = useNavigation();
@@ -76,6 +76,11 @@ const CartListScreen: React.FC = () => {
                     renderItem={renderCartItem}
                     keyExtractor={(item) => item.id.toString()}
                     contentContainerStyle={{ paddingBottom: 16 }}
+                    ListEmptyComponent={
+                        <Text style={{ textAlign: 'center', marginTop: 20, fontSize: 16 }}>
+                            No items in your cart.
+                        </Text>
+                    }
                 />
             </View>
         </View>

@@ -10,7 +10,6 @@ export interface CartProduct {
     qty: number;
 }
 
-// Define the state type
 interface CartState {
     data: CartProduct[];
 }
@@ -24,7 +23,20 @@ const CartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        addCartProduct: (state = initialState, action: PayloadAction<CartProduct>) => {
+        addToCartList(state = initialState, action) {
+            let isExist = false;
+            let cartList = state.data;
+            cartList.map(item => {
+                if (item.id == action.payload.id) {
+                    isExist = true;
+                }
+            })
+            if (!isExist) {
+                cartList.push(action.payload)
+            }
+            state.data = cartList;
+        },
+        addCartProduct: (state, action: PayloadAction<CartProduct>) => {
             const existingProduct = state.data.find(item => item.id === action.payload.id);
             if (existingProduct) {
                 existingProduct.qty += 1;
@@ -32,45 +44,17 @@ const CartSlice = createSlice({
                 state.data.push({ ...action.payload, qty: 1 });
             }
         },
-        reduceCartProduct: (state = initialState, action: PayloadAction<{ id: number }>) => {
+        reduceCartProduct: (state, action: PayloadAction<{ id: number }>) => {
             const product = state.data.find(item => item.id === action.payload.id);
             if (product) {
-                if (product.qty > 1) {
-                    product.qty -= 1;
-                } else {
-                    state.data = state.data.filter(item => item.id !== action.payload.id);
-                }
+                product.qty > 1 ? (product.qty -= 1) : (state.data = state.data.filter(item => item.id !== action.payload.id));
             }
+        },
+        removeCartProduct(state, action: PayloadAction<number>) {
+            state.data = state.data.filter(item => item.id !== action.payload);
         },
     },
 });
 
-export const { addCartProduct, reduceCartProduct } = CartSlice.actions;
+export const { addCartProduct, reduceCartProduct, removeCartProduct } = CartSlice.actions;
 export default CartSlice.reducer;
-
-
-// import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-// type userProp = {
-//     user: Partial<any> | null;
-// };
-
-// const initialState: userProp = {
-//     user: null,
-// };
-
-// const userSlice = createSlice({
-//     name: 'user',
-//     initialState,
-//     reducers: {
-//         setLocation: (state = initialState, action: PayloadAction<any>) => {
-//             state.user = action.payload;
-//         },
-//     },
-//     extraReducers: builder => { },
-// });
-
-// export const { setLocation } = userSlice.actions;
-
-// export default userSlice.reducer;
-// ceb - dfsu - byd

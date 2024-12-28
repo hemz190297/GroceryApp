@@ -6,7 +6,7 @@ import Home from '../tabs/Home';
 import Favourite from '../tabs/Favourite';
 import Search from '../tabs/Search';
 import Notification from '../tabs/Notification';
-import Account from '../tabs/Account';
+import ProfileScreen from '../tabs/ProfileScreen';
 
 const BOTTOM_APPBAR_HEIGHT = 80;
 const MainScreen = () => {
@@ -36,7 +36,7 @@ const MainScreen = () => {
     }, []);
     return (
         <>
-            {selectedTab === 0 ? (<Home />) : selectedTab == 1 ? (<Favourite />) : selectedTab == 2 ? (<Search />) : selectedTab == 3 ? (<Notification />) : selectedTab == 4 ? (<Account />) : (<Home />)}
+            {selectedTab === 0 ? (<Home />) : selectedTab == 1 ? (<Favourite />) : selectedTab == 2 ? (<Search />) : selectedTab == 3 ? (<Notification />) : selectedTab == 4 ? (<ProfileScreen />) : (<Home />)}
             {!keyBoardVisible &&
                 <Appbar
                     style={[

@@ -34,9 +34,15 @@ export default function ProductDetailStyle() {
             height: 24,
             width: 24
         },
+        detailsContainer: { paddingHorizontal: 16 },
         titleTxt: {
             fontSize: 20,
             fontStyle: "italic"
+        },
+        descriptionTxt: {
+            fontSize: 14,
+            fontStyle: "italic",
+            fontWeight: "thin"
         },
         discription: {
             fontSize: 14,
@@ -45,12 +51,17 @@ export default function ProductDetailStyle() {
             marginTop: 10
         },
         flexRow: {
-            flexDirection: "row"
+            flexDirection: "row",
+            marginRight: 10,
         },
         priceTxt: {
             fontSize: 20,
             fontFamily: "sans-serif",
             marginTop: 10
+        },
+        priceTxtQty: {
+            fontSize: 20,
+            fontFamily: "sans-serif",
         },
         price: {
             fontSize: 20,

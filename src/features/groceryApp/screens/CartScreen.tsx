@@ -2,37 +2,42 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { addCartProduct, reduceCartProduct, CartProduct } from '../redux/slices/CartSlice';
 import TabStyle from '../tabs/TabStyle';
 import { RootState } from '../redux/store/Store';
 import Header from '../common/Header';
+import { addCartProduct, reduceCartProduct, removeCartProduct } from '../redux/slices/AddToCartSlice';
 
 const CartScreen: React.FC = () => {
-    const cartData = useSelector((state: RootState) => state.cartListState.data);
-    // const cartDataAdd = useSelector((state: RootState) => state.addToCartListState.data);
-
-    // let combineReucer = { ...cartData, ...cartDataAdd }
+    const cartData = useSelector((state: RootState) => state.addToCartListState.data);
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const { cartItemStyle, homeStyle } = TabStyle();
 
-    const renderItem = ({ item }: { item: CartProduct }) => (
+    const renderItem = ({ item, index }) => (
         <View style={cartItemStyle.container}>
             <Image source={{ uri: item.image }} style={homeStyle.imageStyle} />
             <View style={cartItemStyle.infoView}>
                 <Text style={cartItemStyle.titleTxt}>
                     {item.title.length > 25 ? `${item.title.substring(0, 25)}...` : item.title}
                 </Text>
-                <Text style={cartItemStyle.descriptionTxt}>
-                    {item.description.length > 80 ? `${item.description.substring(0, 80)}...` : item.description}
+                <Text style={cartItemStyle.titleTxt}>
+                    {item.title && item.title.length > 25
+                        ? `${item.title.substring(0, 25)}...`
+                        : item.title || 'No Title Available'}
                 </Text>
                 <View style={cartItemStyle.subContainer}>
                     <Text style={cartItemStyle.priceTxt}>${item.price}</Text>
                     <View style={cartItemStyle.qtyContainer}>
                         <TouchableOpacity
                             style={cartItemStyle.QtyTouchable}
-                            onPress={() => dispatch(reduceCartProduct({ id: item.id }))}
-                        >
+                            onPress={() => {
+                                if (item.qty > 1) {
+                                    dispatch(reduceCartProduct({ id: item.id }));
+                                } else {
+                                    dispatch(removeCartProduct(item.id));
+                                }
+                            }}>
+
                             <Image source={require('../common/images/minus.png')} style={homeStyle.iconStyle} />
                         </TouchableOpacity>
                         <Text style={cartItemStyle.qtyText}>{item.qty}</Text>
@@ -69,7 +74,3 @@ const CartScreen: React.FC = () => {
 };
 
 export default CartScreen;
-function addProductsCart(item: CartProduct): any {
-    throw new Error('Function not implemented.');
-}
-
