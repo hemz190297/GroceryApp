@@ -11,6 +11,7 @@ import { addToCartList } from '../redux/slices/AddToCartSlice';
 import { addProducts } from '../redux/slices/ProductSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginModal from '../common/modal/LoginModal';
+import Checkout from '../common/checkout/Checkout';
 
 type ProductDetailsProps = {
     params: {
@@ -55,19 +56,19 @@ const ProductDetails: React.FC = () => {
 
     const handleAddToCart = () => {
         dispatch(addToCartList(product));
-        if (checkUserStatus() === true) {
-            dispatch(addToCartList({
-                category: product.category,
-                id: product.id,
-                image: product.image,
-                price: product.price,
-                rating: product.rating,
-                title: product.title,
-                qty: quantity
-            }));
-        } else {
-            setModalVisible(true);
-        }
+        // if (checkUserStatus() === true) {
+        //     dispatch(addToCartList({
+        //         category: product.category,
+        //         id: product.id,
+        //         image: product.image,
+        //         price: product.price,
+        //         rating: product.rating,
+        //         title: product.title,
+        //         qty: quantity
+        //     }));
+        // } else {
+        //     setModalVisible(true);
+        // }
     };
 
     const handleAddToWishList = () => {
@@ -147,6 +148,7 @@ const ProductDetails: React.FC = () => {
                 <Button title="Add To Cart" onPress={handleAddToCart} />
             </View>
             <LoginModal modalVisible={modalVisible} onClickLogin={() => setModalVisible(false)} onClickSignUp={() => setModalVisible(false)} onClose={() => setModalVisible(false)} />
+
         </View>
     );
 };

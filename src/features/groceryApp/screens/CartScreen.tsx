@@ -6,12 +6,21 @@ import TabStyle from '../tabs/TabStyle';
 import { RootState } from '../redux/store/Store';
 import Header from '../common/Header';
 import { addCartProduct, reduceCartProduct, removeCartProduct } from '../redux/slices/AddToCartSlice';
+import Checkout from '../common/checkout/Checkout';
 
 const CartScreen: React.FC = () => {
     const cartData = useSelector((state: RootState) => state.addToCartListState.data);
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const { cartItemStyle, homeStyle } = TabStyle();
+
+    const getTotal = () => {
+        let total = 0;
+        cartData.map((item) => {
+            total = total + item.qty * item.price
+        })
+        return total
+    }
 
     const renderItem = ({ item, index }) => (
         <View style={cartItemStyle.container}>
@@ -20,9 +29,9 @@ const CartScreen: React.FC = () => {
                 <Text style={cartItemStyle.titleTxt}>
                     {item.title.length > 25 ? `${item.title.substring(0, 25)}...` : item.title}
                 </Text>
-                <Text style={cartItemStyle.titleTxt}>
-                    {item.title && item.title.length > 25
-                        ? `${item.title.substring(0, 25)}...`
+                <Text style={cartItemStyle.titleTxtDes}>
+                    {item.description && item.description.length > 25
+                        ? `${item.description.substring(0, 25)}...`
                         : item.title || 'No Title Available'}
                 </Text>
                 <View style={cartItemStyle.subContainer}>
@@ -61,7 +70,9 @@ const CartScreen: React.FC = () => {
                 onClickLeftIcon={() => navigation.goBack()}
             />
             {cartData.length === 0 ? (
-                <Text style={cartItemStyle.emptyCartText}>Your cart is empty</Text>
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                    <Text style={cartItemStyle.emptyCartText}>Your cart is empty</Text>
+                </View>
             ) : (
                 <FlatList
                     data={cartData}
@@ -69,6 +80,10 @@ const CartScreen: React.FC = () => {
                     keyExtractor={(item) => item.id.toString()}
                 />
             )}
+            {cartData.length > 0 && < View style={{ position: "absolute", bottom: 40, width: "100%", justifyContent: "center" }}>
+                <Checkout item={cartData.length} total={getTotal()} />
+            </View>}
+
         </View>
     );
 };
