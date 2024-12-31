@@ -189,7 +189,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
     implementation project(':react-native-async-storage_async-storage')
-    
+    implementation 'com.razorpay:checkout:1.6.21'
+
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
     } else {

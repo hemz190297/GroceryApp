@@ -1,4 +1,4 @@
-import { FlatList, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { Alert, FlatList, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import React, { useState } from 'react'
 import Header from '../Header'
 import { useNavigation } from '@react-navigation/native'
@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { reduceCartProduct, removeCartProduct, addCartProduct } from '../../redux/slices/AddToCartSlice'
 import TabStyle from '../../tabs/TabStyle'
 import { Button } from '../../../../components/Button'
+import RazorpayCheckout from 'react-native-razorpay';
+import { addOrders } from '../../redux/slices/OrderSlice'
+
 
 const CheckoutScreen = () => {
     const navigation = useNavigation();
@@ -18,6 +21,18 @@ const CheckoutScreen = () => {
     cartCheckoutData.map((item) => {
         total = total + item.qty * item.price
     })
+
+    const orderPlace = (paymentId) => {
+        const data = {
+            items: cartCheckoutData,
+            amount: '$' + total,
+            // address:selectedAddress,
+            paymentId: paymentId,
+            paymentStatus: selectedButton == 3 ? 'Pending' : 'Success'
+        };
+        dispatch(addOrders(data));
+        navigation.navigate('OrderScreen')
+    }
 
     const renderCheckoutItem = ({ item, index }) => (
         <View style={cartItemStyle.container}>
@@ -124,6 +139,9 @@ const CheckoutScreen = () => {
                                 <View style={{ marginTop: 40, marginHorizontal: 10 }}>
                                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                                         <Text style={{ fontSize: 18, fontWeight: "thin" }}>Address</Text>
+                                        <Pressable onPress={() => navigation.navigate("OrderScreen")}>
+                                            <Text style={{ fontSize: 18, fontWeight: "thin", }}>Edit new Address</Text>
+                                        </Pressable>
                                         <Pressable onPress={() => navigation.navigate("MyAddreses")}>
                                             <Text style={{ fontSize: 18, fontWeight: "thin", }}>Edit Address</Text>
                                         </Pressable>
@@ -131,7 +149,30 @@ const CheckoutScreen = () => {
                                     <Text style={{ fontSize: 18, fontWeight: "thin", marginTop: 20 }}>Please Select Address</Text>
                                 </View>
                                 <View style={{ top: 100 }}>
-                                    <Button title='Pay & Order' onPress={() => console.log("okokokoko")} />
+                                    <Button title='Pay & Order' onPress={() => {
+                                        var options = {
+                                            description: 'Credits towards consultation',
+                                            image: 'https://your-logo-url.com',
+                                            currency: 'INR',
+                                            key: 'YOUR_API_KEY_ID',
+                                            amount: '5000', // Amount in paise (5000 paise = INR 50)
+                                            name: 'Your Company Name',
+                                            prefill: {
+                                                email: 'user@example.com',
+                                                contact: '9876543210',
+                                                name: 'User Name'
+                                            },
+                                            theme: { color: '#F37254' }
+                                        }
+                                        RazorpayCheckout.open(options).then((data) => {
+                                            // handle success
+                                            // Alert.alert(`Success: ${data.razorpay_payment_id}`);
+                                            orderPlace(data.razorpay_payment_id)
+                                        }).catch((error) => {
+                                            // handle failure
+                                            Alert.alert(`Error: ${error.code} | ${error.description}`);
+                                        });
+                                    }} />
                                 </View>
                             </View>
                         </View>

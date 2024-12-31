@@ -20,6 +20,7 @@ import SignupScreen from '../features/groceryApp/screens/signUp/SignupScreen';
 import CheckoutScreen from '../features/groceryApp/common/checkout/CheckoutScreen';
 import AddNewAddress from '../features/groceryApp/common/checkout/AddNewAddress';
 import MyAddreses from '../features/groceryApp/common/checkout/MyAddreses';
+import OrderScreen from '../features/groceryApp/screens/OrderScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +45,7 @@ export const RootNavigator = ({ toggleTheme }: { toggleTheme: () => void }) => {
         <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} options={{ headerShown: false }} />
         <Stack.Screen name="AddNewAddress" component={AddNewAddress} options={{ headerShown: false }} />
         <Stack.Screen name="MyAddreses" component={MyAddreses} options={{ headerShown: false }} />
+        <Stack.Screen name="OrderScreen" component={OrderScreen} options={{ headerShown: false }} />
         <Stack.Screen name="MyDrawer" options={{ headerShown: false }} children={() => <MyDrawer toggleTheme={toggleTheme} />} />
       </Stack.Navigator>
     </GestureHandlerRootView>

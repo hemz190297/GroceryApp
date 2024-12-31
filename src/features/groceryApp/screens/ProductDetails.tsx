@@ -1,50 +1,68 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../common/Header';
 import { Button } from '../../../components/Button';
 import { addWishList } from '../redux/slices/WishListSlice';
+import { addToCartList } from '../redux/slices/AddToCartSlice';
 import ProductDetailStyle from './ProductDetailsStyle';
 import TabStyle from '../tabs/TabStyle';
-import { addToCartList } from '../redux/slices/AddToCartSlice';
-import { addProducts } from '../redux/slices/ProductSlice';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoginModal from '../common/modal/LoginModal';
-import Checkout from '../common/checkout/Checkout';
 
-type ProductDetailsProps = {
-    params: {
-        data: {
-            id: number;
-            title: string;
-            description: string;
-            price: number;
-            image: string;
-        };
-    };
-};
-
-const ProductDetails: React.FC = () => {
+const ProductDetails = () => {
     const navigation = useNavigation();
-    const route = useRoute<RouteProp<Record<string, ProductDetailsProps>, string>>();
+    const route = useRoute<RouteProp<Record<string, any>, string>>();
     const dispatch = useDispatch();
     const { productStyle } = ProductDetailStyle();
     const { cartItemStyle, homeStyle } = TabStyle();
     const product = route.params?.data;
     const [quantity, setQuantity] = useState(1);
-    const [modalVisible, setModalVisible] = useState(true);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const checkUserStatus = async () => {
-        let isUserLoggedIn = false;
-        const status = await AsyncStorage.getItem('IS_USER_LOGGED_IN');
-        if (status == null) {
-            isUserLoggedIn = false;
-        } else {
-            isUserLoggedIn = true;
+        try {
+            const status = await AsyncStorage.getItem('IS_USER_LOGGED_IN');
+            return status !== null;
+        } catch (error) {
+            console.error('Error checking user status:', error);
+            return false;
         }
-        return isUserLoggedIn;
-    }
+    };
+
+    useEffect(() => {
+        const checkUserLogin = async () => {
+            const isLoggedIn = await checkUserStatus();
+            setModalVisible(!isLoggedIn);
+        };
+        checkUserLogin();
+    }, []);
+
+    const handleAddToCart = async () => {
+        const isLoggedIn = await checkUserStatus();
+        if (isLoggedIn) {
+            dispatch(addToCartList({
+                ...product,
+                qty: quantity,
+            }));
+        } else {
+            setModalVisible(true);
+        }
+    };
+
+    const handleAddToWishList = async () => {
+        const isLoggedIn = await checkUserStatus();
+        if (isLoggedIn) {
+            dispatch(addWishList(product));
+        } else {
+            setModalVisible(true);
+        }
+    };
+
+    const handleGoToCart = () => {
+        navigation.navigate('CartScreen');
+    };
 
     if (!product) {
         return (
@@ -53,38 +71,6 @@ const ProductDetails: React.FC = () => {
             </View>
         );
     }
-
-    const handleAddToCart = () => {
-        dispatch(addToCartList(product));
-        // if (checkUserStatus() === true) {
-        //     dispatch(addToCartList({
-        //         category: product.category,
-        //         id: product.id,
-        //         image: product.image,
-        //         price: product.price,
-        //         rating: product.rating,
-        //         title: product.title,
-        //         qty: quantity
-        //     }));
-        // } else {
-        //     setModalVisible(true);
-        // }
-    };
-
-    const handleAddToWishList = () => {
-        if (checkUserStatus === true) {
-            dispatch(addWishList(product));
-        } else {
-            setModalVisible(true);
-        }
-    };
-
-    const handleGoToCart = () => {
-        dispatch(addProducts(product));
-        navigation.navigate('CartScreen');
-    };
-
-
 
     return (
         <View style={productStyle.mainContainer}>
@@ -96,7 +82,6 @@ const ProductDetails: React.FC = () => {
                 onClickLeftIcon={() => navigation.goBack()}
                 onClickRightIcon={handleGoToCart}
             />
-
             <View style={productStyle.imageContainer}>
                 <Image
                     source={{ uri: product.image }}
@@ -113,42 +98,38 @@ const ProductDetails: React.FC = () => {
                     />
                 </TouchableOpacity>
             </View>
-
             <View style={productStyle.detailsContainer}>
                 <Text style={productStyle.titleTxt}>{product.title}</Text>
                 <Text style={productStyle.descriptionTxt}>{product.description}</Text>
-
             </View>
-
             <View style={cartItemStyle.qtyContainerCenter}>
                 <View style={productStyle.flexRow}>
-                    <Text style={productStyle.priceTxt}>Price: </Text>
+                    <Text style={productStyle.priceTxt}>Price:</Text>
                     <Text style={productStyle.price}>${product.price}</Text>
                 </View>
                 <TouchableOpacity
                     style={cartItemStyle.QtyTouchable}
-                    onPress={() => {
-                        if (quantity > 1) {
-                            setQuantity(quantity - 1)
-                        }
-                    }}>
+                    onPress={() => quantity > 1 && setQuantity(quantity - 1)}
+                >
                     <Image source={require('../common/images/minus.png')} style={homeStyle.iconStyle} />
                 </TouchableOpacity>
                 <Text style={cartItemStyle.qtyText}>{quantity}</Text>
                 <TouchableOpacity
                     style={cartItemStyle.QtyTouchable}
-                    onPress={() => {
-                        setQuantity(quantity + 1)
-                    }}>
+                    onPress={() => setQuantity(quantity + 1)}
+                >
                     <Image source={require('../common/images/plus.png')} style={homeStyle.iconStyle} />
                 </TouchableOpacity>
             </View>
-
             <View style={productStyle.addToCartButton}>
                 <Button title="Add To Cart" onPress={handleAddToCart} />
             </View>
-            <LoginModal modalVisible={modalVisible} onClickLogin={() => setModalVisible(false)} onClickSignUp={() => setModalVisible(false)} onClose={() => setModalVisible(false)} />
-
+            <LoginModal
+                modalVisible={modalVisible}
+                onClickLogin={() => setModalVisible(false)}
+                onClickSignUp={() => setModalVisible(false)}
+                onClose={() => setModalVisible(false)}
+            />
         </View>
     );
 };

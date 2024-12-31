@@ -1,8 +1,10 @@
 import { View, Text, Image, Pressable } from 'react-native'
 import React from 'react'
 import Header from '../common/Header';
+import { useNavigation } from '@react-navigation/native';
 
 const ProfileScreen = () => {
+    const navigation = useNavigation();
     return (
         <View style={{ flex: 1 }}>
             <Header title='Profile' />
@@ -15,7 +17,7 @@ const ProfileScreen = () => {
                 <Pressable style={{ borderBottomWidth: 0.3, borderBlockColor: "#000", marginTop: 20 }}>
                     <Text style={{ fontSize: 20, fontWeight: "thin", marginLeft: 20 }}>Edit Profile</Text>
                 </Pressable>
-                <Pressable style={{ borderBottomWidth: 0.3, borderBlockColor: "#000", marginTop: 20 }}>
+                <Pressable style={{ borderBottomWidth: 0.3, borderBlockColor: "#000", marginTop: 20 }} onPress={() => navigation.navigate("OrderScreen")}>
                     <Text style={{ fontSize: 20, fontWeight: "thin", marginLeft: 20 }}>Orders</Text>
                 </Pressable>
                 <Pressable style={{ borderBottomWidth: 0.3, borderBlockColor: "#000", marginTop: 20 }}>
