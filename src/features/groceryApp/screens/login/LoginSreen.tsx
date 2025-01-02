@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Pressable } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Pressable, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
@@ -12,12 +12,19 @@ const LoginScreen = () => {
     }
 
     const loginData = () => {
-        firestore().collection('Users')
+        firestore()
+            .collection('Users')
             .where('email', '==', form.email)
+            .where('password', '==', form.password)
             .get()
             .then(querySnapshot => {
-                console.log("okokoko:::::", querySnapshot.docs[0]._data);
-            });
+                if (!querySnapshot.empty) {
+                    navigation.navigate('Home');
+                } else {
+                    Alert.alert('Invalid email or password');
+                }
+            })
+            .catch(error => console.error(error));
     }
     return (
         <View style={{ marginTop: 200, flex: 1, padding: 16, alignItems: "center" }}>

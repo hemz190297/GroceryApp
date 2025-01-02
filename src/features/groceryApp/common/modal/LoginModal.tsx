@@ -16,7 +16,7 @@ const LoginModal = ({ modalVisible, onClickLogin, onClickSignUp, onClose }) => {
                     <Text style={{ fontSize: 18, fontWeight: "thin", textAlign: "center" }}>Login</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{ backgroundColor: "#e5ed53", height: 40, width: 250, borderRadius: 20, justifyContent: "center" }} onPress={() => onClickSignUp(navigation.navigate('SignupScreen'))}>
-                    <Text style={{ fontSize: 18, fontWeight: "thin", textAlign: "center" }}>SignUp</Text>
+                    <Text style={{ fontSize: 18, fontWeight: "thin", textAlign: "center" }}>{'SignUp'}</Text>
                 </TouchableOpacity>
             </View>
         </Modal>

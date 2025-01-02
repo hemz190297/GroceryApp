@@ -1,13 +1,14 @@
-import { Alert, FlatList, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
-import React, { useState } from 'react'
+import { Alert, FlatList, Image, Keyboard, KeyboardAvoidingView, Platform, Pressable, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import Header from '../Header'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import { reduceCartProduct, removeCartProduct, addCartProduct } from '../../redux/slices/AddToCartSlice'
 import TabStyle from '../../tabs/TabStyle'
 import { Button } from '../../../../components/Button'
 import RazorpayCheckout from 'react-native-razorpay';
 import { addOrders } from '../../redux/slices/OrderSlice'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 const CheckoutScreen = () => {
@@ -15,6 +16,9 @@ const CheckoutScreen = () => {
     const cartCheckoutData = useSelector((state) => state.addToCartListState.data);
     const { cartItemStyle, homeStyle } = TabStyle();
     const dispatch = useDispatch();
+    const [selectedAddress, setSelectedAddress] = useState('Please Select Address');
+    const [city, state, pincode, type] = selectedAddress.split(',').map((item) => item.trim());
+    const isFocused = useIsFocused();
     const [selectedButton, setSelectedButton] = useState(0);
 
     let total = 0;
@@ -33,6 +37,15 @@ const CheckoutScreen = () => {
         dispatch(addOrders(data));
         navigation.navigate('OrderScreen')
     }
+
+    useEffect(() => {
+        getSelectedAddress();
+    }, [isFocused]);
+
+    const getSelectedAddress = async () => {
+        const address = await AsyncStorage.getItem('My_ADDRESS');
+        setSelectedAddress(address || 'Please Select Address');
+    };
 
     const renderCheckoutItem = ({ item, index }) => (
         <View style={cartItemStyle.container}>
@@ -58,9 +71,9 @@ const CheckoutScreen = () => {
                                     dispatch(removeCartProduct(item.id));
                                 }
                             }}>
-
                             <Image source={require('../images/minus.png')} style={homeStyle.iconStyle} />
                         </TouchableOpacity>
+
                         <Text style={cartItemStyle.qtyText}>{item.qty}</Text>
                         <TouchableOpacity
                             style={cartItemStyle.QtyTouchable}
@@ -89,94 +102,101 @@ const CheckoutScreen = () => {
                             <Text style={cartItemStyle.emptyCartText}>Your cart is empty</Text>
                         </View>
                     ) : (
-                        <View style={{ marginHorizontal: 16, flex: 1 }}>
-                            < View style={{ flex: 0.5, }}>
+                        <View style={{ flex: 1 }}>
+                            <ScrollView style={{ flex: 1 }}>
                                 <FlatList
                                     data={cartCheckoutData}
                                     renderItem={renderCheckoutItem}
                                     keyExtractor={(item) => item.id.toString()}
                                 />
-                            </View>
-                            <View style={{ flexDirection: "row", justifyContent: "space-between", marginHorizontal: 16, borderBottomWidth: 1, borderBottomColor: "#000" }}>
-                                <Text style={{ fontSize: 18, fontWeight: "thin" }}>Total:</Text>
-                                <Text style={{ fontSize: 20, fontWeight: "thin", color: "green" }}>${total}</Text>
-                            </View>
-                            <Text style={{ fontSize: 20, fontWeight: "thin" }}>Select Payment Mode</Text>
-                            <View style={{ marginTop: 50 }}>
-                                <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }} onPress={() => setSelectedButton(0)}>
-                                    {selectedButton == 0 ?
-                                        <Image source={require('../images/radio-select.png')} style={{ height: 20, width: 20 }} />
-                                        : <Image source={require('../images/radio-unselect.png')} style={{ height: 20, width: 20 }} />
-                                    }
-
-                                    <Text style={{ fontSize: 18, fontWeight: "thin", marginLeft: 10 }}>Credit Card</Text>
-                                </TouchableOpacity>
-
-                                <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }} onPress={() => setSelectedButton(1)}>
-                                    {selectedButton == 1 ?
-                                        <Image source={require('../images/radio-select.png')} style={{ height: 20, width: 20 }} />
-                                        : <Image source={require('../images/radio-unselect.png')} style={{ height: 20, width: 20 }} />
-                                    }
-                                    <Text style={{ fontSize: 18, fontWeight: "thin", marginLeft: 10 }}>Debit Card</Text>
-                                </TouchableOpacity>
-
-                                <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }} onPress={() => setSelectedButton(2)}>
-                                    {selectedButton == 2 ?
-                                        <Image source={require('../images/radio-select.png')} style={{ height: 20, width: 20 }} />
-                                        : <Image source={require('../images/radio-unselect.png')} style={{ height: 20, width: 20 }} />
-                                    }
-                                    <Text style={{ fontSize: 18, fontWeight: "thin", marginLeft: 10 }}>Upi</Text>
-                                </TouchableOpacity>
-
-                                <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }} onPress={() => setSelectedButton(3)}>
-                                    {selectedButton == 3 ?
-                                        <Image source={require('../images/radio-select.png')} style={{ height: 20, width: 20 }} />
-                                        : <Image source={require('../images/radio-unselect.png')} style={{ height: 20, width: 20 }} />
-                                    }
-                                    <Text style={{ fontSize: 18, fontWeight: "thin", marginLeft: 10 }}>Cash On Delivery</Text>
-                                </TouchableOpacity>
-
-                                <View style={{ marginTop: 40, marginHorizontal: 10 }}>
-                                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                        <Text style={{ fontSize: 18, fontWeight: "thin" }}>Address</Text>
-                                        <Pressable onPress={() => navigation.navigate("OrderScreen")}>
-                                            <Text style={{ fontSize: 18, fontWeight: "thin", }}>Edit new Address</Text>
-                                        </Pressable>
-                                        <Pressable onPress={() => navigation.navigate("MyAddreses")}>
-                                            <Text style={{ fontSize: 18, fontWeight: "thin", }}>Edit Address</Text>
-                                        </Pressable>
-                                    </View>
-                                    <Text style={{ fontSize: 18, fontWeight: "thin", marginTop: 20 }}>Please Select Address</Text>
+                            </ScrollView>
+                            <View style={{ paddingHorizontal: 16 }}>
+                                <View style={{ flexDirection: "row", justifyContent: "space-between", borderBottomWidth: 1, borderBottomColor: "#000", }}>
+                                    <Text style={{ fontSize: 18, fontWeight: "thin" }}>Total:</Text>
+                                    <Text style={{ fontSize: 20, fontWeight: "thin", color: "green" }}>${total}</Text>
                                 </View>
-                                <View style={{ top: 100 }}>
-                                    <Button title='Pay & Order' onPress={() => {
-                                        var options = {
-                                            description: 'Credits towards consultation',
-                                            image: 'https://your-logo-url.com',
-                                            currency: 'INR',
-                                            key: 'YOUR_API_KEY_ID',
-                                            amount: '5000', // Amount in paise (5000 paise = INR 50)
-                                            name: 'Your Company Name',
-                                            prefill: {
-                                                email: 'user@example.com',
-                                                contact: '9876543210',
-                                                name: 'User Name'
-                                            },
-                                            theme: { color: '#F37254' }
+                                <Text style={{ fontSize: 20, fontWeight: "thin" }}>Select Payment Mode</Text>
+                                <View style={{ marginTop: 10 }}>
+                                    <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }} onPress={() => setSelectedButton(0)}>
+                                        {selectedButton == 0 ?
+                                            <Image source={require('../images/radio-select.png')} style={{ height: 20, width: 20 }} />
+                                            : <Image source={require('../images/radio-unselect.png')} style={{ height: 20, width: 20 }} />
                                         }
-                                        RazorpayCheckout.open(options).then((data) => {
-                                            // handle success
-                                            // Alert.alert(`Success: ${data.razorpay_payment_id}`);
-                                            orderPlace(data.razorpay_payment_id)
-                                        }).catch((error) => {
-                                            // handle failure
-                                            Alert.alert(`Error: ${error.code} | ${error.description}`);
-                                        });
-                                    }} />
+
+                                        <Text style={{ fontSize: 18, fontWeight: "thin", marginLeft: 10 }}>Credit Card</Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }} onPress={() => setSelectedButton(1)}>
+                                        {selectedButton == 1 ?
+                                            <Image source={require('../images/radio-select.png')} style={{ height: 20, width: 20 }} />
+                                            : <Image source={require('../images/radio-unselect.png')} style={{ height: 20, width: 20 }} />
+                                        }
+                                        <Text style={{ fontSize: 18, fontWeight: "thin", marginLeft: 10 }}>Debit Card</Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }} onPress={() => setSelectedButton(2)}>
+                                        {selectedButton == 2 ?
+                                            <Image source={require('../images/radio-select.png')} style={{ height: 20, width: 20 }} />
+                                            : <Image source={require('../images/radio-unselect.png')} style={{ height: 20, width: 20 }} />
+                                        }
+                                        <Text style={{ fontSize: 18, fontWeight: "thin", marginLeft: 10 }}>Upi</Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity style={{ flexDirection: "row", marginTop: 10 }} onPress={() => setSelectedButton(3)}>
+                                        {selectedButton == 3 ?
+                                            <Image source={require('../images/radio-select.png')} style={{ height: 20, width: 20 }} />
+                                            : <Image source={require('../images/radio-unselect.png')} style={{ height: 20, width: 20 }} />
+                                        }
+                                        <Text style={{ fontSize: 18, fontWeight: "thin", marginLeft: 10 }}>Cash On Delivery</Text>
+                                    </TouchableOpacity>
+
+                                    <View style={{ marginTop: 40, marginHorizontal: 10 }}>
+                                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                            <Text style={{ fontSize: 18, fontWeight: "thin" }}>Address</Text>
+                                            <Pressable onPress={() => navigation.navigate("MyAddreses")}>
+                                                <Text style={{ fontSize: 18, fontWeight: "thin", }}>Edit Address</Text>
+                                            </Pressable>
+                                        </View>
+                                        <View style={{ marginTop: 20 }}>
+                                            <Text style={{ fontSize: 18, fontWeight: "thin" }}>{`State: ${state}`}</Text>
+                                            <Text style={{ fontSize: 18, fontWeight: "thin" }}>{`City: ${city}`}</Text>
+                                            <Text style={{ fontSize: 18, fontWeight: "thin" }}>{`Pincode: ${pincode}`}</Text>
+                                            <Text style={{ fontSize: 18, fontWeight: "thin" }}>{`${type}`}</Text>
+                                        </View>
+
+
+                                    </View>
+                                    <View style={{ top: -10 }}>
+                                        <Button title='Pay & Order' onPress={() => {
+                                            var options = {
+                                                description: 'Credits towards consultation',
+                                                image: 'https://your-logo-url.com',
+                                                currency: 'INR',
+                                                key: 'YOUR_API_KEY_ID',
+                                                amount: '5000', // Amount in paise (5000 paise = INR 50)
+                                                name: 'Your Company Name',
+                                                prefill: {
+                                                    email: 'user@example.com',
+                                                    contact: '9876543210',
+                                                    name: 'User Name'
+                                                },
+                                                theme: { color: '#F37254' }
+                                            }
+                                            RazorpayCheckout.open(options).then((data) => {
+                                                // handle success
+                                                // Alert.alert(`Success: ${data.razorpay_payment_id}`);
+                                                orderPlace(data.razorpay_payment_id)
+                                            }).catch((error) => {
+                                                // handle failure
+                                                Alert.alert(`Error: ${error.code} | ${error.description}`);
+                                            });
+                                        }} />
+                                    </View>
                                 </View>
                             </View>
                         </View>
                     )}
+
                 </View>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>

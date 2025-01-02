@@ -12,7 +12,7 @@ export default function TabStyle() {
         iconStyle_10: { height: 10, width: 10 },
     })
     const cartItemStyle = StyleSheet.create({
-        container: { flexDirection: 'row', padding: 10 },
+        container: { flexDirection: 'row', padding: 10, flex: 1, backgroundColor: "#fff" },
         infoView: { marginLeft: 10, flex: 1 },
         titleTxt: { fontSize: 16, fontWeight: 'bold' },
         titleTxtDes: { fontSize: 14, fontWeight: 'thin' },

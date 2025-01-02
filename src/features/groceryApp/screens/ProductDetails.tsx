@@ -19,6 +19,7 @@ const ProductDetails = () => {
     const { cartItemStyle, homeStyle } = TabStyle();
     const product = route.params?.data;
     const [quantity, setQuantity] = useState(1);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
     const checkUserStatus = async () => {
@@ -32,15 +33,15 @@ const ProductDetails = () => {
     };
 
     useEffect(() => {
-        const checkUserLogin = async () => {
-            const isLoggedIn = await checkUserStatus();
-            setModalVisible(!isLoggedIn);
+        const initializeLoginStatus = async () => {
+            const status = await checkUserStatus();
+            setIsLoggedIn(status);
+            setModalVisible(!status); // Show modal if not logged in
         };
-        checkUserLogin();
+        initializeLoginStatus();
     }, []);
 
-    const handleAddToCart = async () => {
-        const isLoggedIn = await checkUserStatus();
+    const handleAddToCart = () => {
         if (isLoggedIn) {
             dispatch(addToCartList({
                 ...product,
@@ -51,8 +52,7 @@ const ProductDetails = () => {
         }
     };
 
-    const handleAddToWishList = async () => {
-        const isLoggedIn = await checkUserStatus();
+    const handleAddToWishList = () => {
         if (isLoggedIn) {
             dispatch(addWishList(product));
         } else {
@@ -90,7 +90,8 @@ const ProductDetails = () => {
                 />
                 <TouchableOpacity
                     style={productStyle.heartImage}
-                    onPress={handleAddToWishList}
+                    // onPress={handleAddToWishList}
+                    onPress={() => dispatch(addWishList(product))}
                 >
                     <Image
                         source={require('../common/images/heart.png')}
@@ -122,14 +123,19 @@ const ProductDetails = () => {
                 </TouchableOpacity>
             </View>
             <View style={productStyle.addToCartButton}>
-                <Button title="Add To Cart" onPress={handleAddToCart} />
+                {/* <Button title="Add To Cart" onPress={handleAddToCart} /> */}
+                <Button title="Add To Cart" onPress={() => dispatch(addToCartList({
+                    ...product,
+                    qty: quantity,
+                }))} />
             </View>
-            <LoginModal
+            {modalVisible && <LoginModal
                 modalVisible={modalVisible}
                 onClickLogin={() => setModalVisible(false)}
                 onClickSignUp={() => setModalVisible(false)}
                 onClose={() => setModalVisible(false)}
-            />
+            />}
+
         </View>
     );
 };
