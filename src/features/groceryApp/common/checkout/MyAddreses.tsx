@@ -17,7 +17,7 @@ import { editAddress, removeAddress } from '../../redux/slices/AddressSlice';
 
 const MyAddresses = () => {
     const addresses = useSelector((state) => state.addressState.data || []);
-    console.log("adresss12132321#:::::", addresses);
+    // console.log("adresss12132321#:::::", addresses);
 
     const navigation = useNavigation();
     const isFocused = useIsFocused();
@@ -28,7 +28,7 @@ const MyAddresses = () => {
     }, [isFocused])
 
     const defaultAddress = async item => {
-        await AsyncStorage.setItem('My_ADDRESS', '' + item.city + ',' + item.state + ',' + item.pincode + ',Type:' + item.type)
+        await AsyncStorage.setItem('My_ADDRESS', '' + item.city + ',' + item.state + ',' + item.pincode + ',' + item.type)
         navigation.goBack();
     }
 

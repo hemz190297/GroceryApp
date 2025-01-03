@@ -1,62 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch, useSelector } from 'react-redux';
 import Header from '../common/Header';
 import { Button } from '../../../components/Button';
-import { addWishList } from '../redux/slices/WishListSlice';
+import { addWishList, removeWishList } from '../redux/slices/WishListSlice';
 import { addToCartList } from '../redux/slices/AddToCartSlice';
 import ProductDetailStyle from './ProductDetailsStyle';
 import TabStyle from '../tabs/TabStyle';
-import LoginModal from '../common/modal/LoginModal';
 
 const ProductDetails = () => {
     const navigation = useNavigation();
     const route = useRoute<RouteProp<Record<string, any>, string>>();
     const dispatch = useDispatch();
+
     const { productStyle } = ProductDetailStyle();
     const { cartItemStyle, homeStyle } = TabStyle();
     const product = route.params?.data;
-    const [quantity, setQuantity] = useState(1);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [modalVisible, setModalVisible] = useState(false);
 
-    const checkUserStatus = async () => {
-        try {
-            const status = await AsyncStorage.getItem('IS_USER_LOGGED_IN');
-            return status !== null;
-        } catch (error) {
-            console.error('Error checking user status:', error);
-            return false;
-        }
-    };
+    const [quantity, setQuantity] = useState(1);
+    const [isInWishlist, setIsInWishlist] = useState(false);
+    const wishlist = useSelector((state) => {
+        console.log('State:', state);
+        return state.wishListState?.data || [];
+    });
+    console.log("wishlsithgfvhgv::6768678", wishlist);
+
 
     useEffect(() => {
-        const initializeLoginStatus = async () => {
-            const status = await checkUserStatus();
-            setIsLoggedIn(status);
-            setModalVisible(!status); // Show modal if not logged in
-        };
-        initializeLoginStatus();
-    }, []);
+        setIsInWishlist(wishlist.some(item => item.id === product.id));
+    }, [wishlist, product]);
 
-    const handleAddToCart = () => {
-        if (isLoggedIn) {
-            dispatch(addToCartList({
-                ...product,
-                qty: quantity,
-            }));
+    const toggleWishlist = () => {
+        if (isInWishlist) {
+            dispatch(removeWishList(product.id));
         } else {
-            setModalVisible(true);
-        }
-    };
-
-    const handleAddToWishList = () => {
-        if (isLoggedIn) {
             dispatch(addWishList(product));
-        } else {
-            setModalVisible(true);
         }
     };
 
@@ -82,27 +61,30 @@ const ProductDetails = () => {
                 onClickLeftIcon={() => navigation.goBack()}
                 onClickRightIcon={handleGoToCart}
             />
+
             <View style={productStyle.imageContainer}>
                 <Image
                     source={{ uri: product.image }}
                     style={productStyle.productImage}
                     resizeMode="stretch"
                 />
-                <TouchableOpacity
-                    style={productStyle.heartImage}
-                    // onPress={handleAddToWishList}
-                    onPress={() => dispatch(addWishList(product))}
-                >
+                <TouchableOpacity style={productStyle.heartImage} onPress={toggleWishlist}>
                     <Image
-                        source={require('../common/images/heart.png')}
+                        source={
+                            isInWishlist
+                                ? require('../common/images/heart-fill.png')
+                                : require('../common/images/heart.png')
+                        }
                         style={productStyle.heartImageSize}
                     />
                 </TouchableOpacity>
             </View>
+
             <View style={productStyle.detailsContainer}>
                 <Text style={productStyle.titleTxt}>{product.title}</Text>
                 <Text style={productStyle.descriptionTxt}>{product.description}</Text>
             </View>
+
             <View style={cartItemStyle.qtyContainerCenter}>
                 <View style={productStyle.flexRow}>
                     <Text style={productStyle.priceTxt}>Price:</Text>
@@ -122,20 +104,18 @@ const ProductDetails = () => {
                     <Image source={require('../common/images/plus.png')} style={homeStyle.iconStyle} />
                 </TouchableOpacity>
             </View>
-            <View style={productStyle.addToCartButton}>
-                {/* <Button title="Add To Cart" onPress={handleAddToCart} /> */}
-                <Button title="Add To Cart" onPress={() => dispatch(addToCartList({
-                    ...product,
-                    qty: quantity,
-                }))} />
-            </View>
-            {modalVisible && <LoginModal
-                modalVisible={modalVisible}
-                onClickLogin={() => setModalVisible(false)}
-                onClickSignUp={() => setModalVisible(false)}
-                onClose={() => setModalVisible(false)}
-            />}
 
+            <View style={productStyle.addToCartButton}>
+                <Button
+                    title="Add To Cart"
+                    onPress={() =>
+                        dispatch(addToCartList({
+                            ...product,
+                            qty: quantity,
+                        }))
+                    }
+                />
+            </View>
         </View>
     );
 };

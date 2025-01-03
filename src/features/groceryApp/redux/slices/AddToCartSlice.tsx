@@ -1,3 +1,5 @@
+import { PayloadAction } from "@reduxjs/toolkit";
+
 const { createSlice } = require('@reduxjs/toolkit');
 
 const CartListSlice = createSlice({

@@ -29,7 +29,6 @@ const AddNewAddress = () => {
 
 
     const dispatch = useDispatch();
-    console.log("route::::::", route);
 
     const handleChange = (field, value) => {
         setForm(prev => ({ ...prev, [field]: value }));

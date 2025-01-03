@@ -6,8 +6,9 @@ import { useNavigation } from '@react-navigation/native'
 import ProductCard from '../common/CommonProductCard'
 
 const Favourite = () => {
-    const wishData = useSelector((state: any) => state.wishListState)
-    const [wishlistProducts, setWishListProducts] = useState(wishData.data);
+    const wishData = useSelector((state: any) => state.wishListState.data);
+    console.log("wishsataaa:2121:::", wishData);
+
     const navigation = useNavigation();
     return (
         <View>
@@ -15,7 +16,7 @@ const Favourite = () => {
                 title={'Favorites'} onClickLeftIcon={() => { navigation.goBack() }} onClickRightIcon={() => navigation.navigate('CartScreen')} />
             <View style={{ marginTop: 60 }}>
                 <FlatList
-                    data={wishlistProducts}
+                    data={wishData}
                     renderItem={({ item }) => (
                         <ProductCard item={item} onPress={() => navigation.navigate('ProductDetails', { data: item })} />
                     )}

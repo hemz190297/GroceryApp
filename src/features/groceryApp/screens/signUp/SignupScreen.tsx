@@ -1,19 +1,27 @@
-import { View, Text, TextInput, TouchableOpacity, Pressable, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import withKeyboardAvoiding from '../../common/KeyboardAvoidingHoc';
 
 const SignupScreen = () => {
     const navigation = useNavigation();
-    const [form, setForm] = useState({ name: '', email: '', mobileNo: '', password: '', confirmPassword: '' });
+    const [form, setForm] = useState({
+        name: '',
+        email: '',
+        mobileNo: '',
+        password: '',
+        confirmPassword: '',
+    });
     const [error, setError] = useState('');
+
     const handleChange = (field, value) => {
-        setForm(prev => ({ ...prev, [field]: value }));
-    }
+        setForm((prev) => ({ ...prev, [field]: value }));
+    };
 
     const validateForm = () => {
         const { name, email, mobileNo, password, confirmPassword } = form;
+
         if (!name || !email || !mobileNo || !password || !confirmPassword) {
             setError('All fields are required.');
             return false;
@@ -26,10 +34,10 @@ const SignupScreen = () => {
             setError('Passwords do not match.');
             return false;
         }
+
         setError('');
         return true;
     };
-
 
     const signUpData = () => {
         if (!validateForm()) return;
@@ -41,39 +49,127 @@ const SignupScreen = () => {
                 console.log('User added!');
                 navigation.navigate('LoginScreen');
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('Error adding user:', error);
                 setError('Something went wrong. Please try again.');
             });
     };
+
     return (
-        <ScrollView style={{ marginTop: 100, flex: 1, padding: 16, }}>
-            <Text style={{ fontSize: 28, fontWeight: "thin" }}>{'SignUp'}</Text>
-            <View style={{ alignItems: "center" }}>
-                <TouchableOpacity style={{ backgroundColor: "#ed991a", marginTop: 50, height: 40, width: 250, borderRadius: 20, justifyContent: "center" }} onPress={signUpData}>
-                    <Text style={{ fontSize: 18, fontWeight: "thin", textAlign: "center", color: "#fff" }}>{'SignUp'}</Text>
-                </TouchableOpacity>
-                <Pressable onPress={() => navigation.navigate('LoginScreen')}>
-                    <Text style={{ fontSize: 16, fontWeight: "thin", marginTop: 10, borderBottomWidth: 1, borderColor: "#000", color: "#5753e6" }}>{'Login'}</Text>
-                </Pressable>
+        <ScrollView contentContainerStyle={styles.container}>
+            <Text style={styles.headerText}>Sign Up</Text>
 
+            {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
+            <View style={styles.inputContainer}>
+                <TextInput
+                    placeholder="Enter Name"
+                    value={form.name}
+                    onChangeText={(value) => handleChange('name', value)}
+                    placeholderTextColor="#979797"
+                    style={styles.input}
+                />
             </View>
-            <View style={{ borderWidth: 1, borderRadius: 10, width: "100%", marginTop: 20 }}>
-                <TextInput placeholder='Enter Name' value={form.name} onChangeText={value => handleChange('name', value)} placeholderTextColor={'#979797'} style={{ marginLeft: 10 }} />
+            <View style={styles.inputContainer}>
+                <TextInput
+                    placeholder="Enter Email"
+                    value={form.email}
+                    onChangeText={(value) => handleChange('email', value)}
+                    placeholderTextColor="#979797"
+                    style={styles.input}
+                    keyboardType="email-address"
+                />
             </View>
-            <View style={{ borderWidth: 1, borderRadius: 10, width: "100%", marginTop: 20 }}>
-                <TextInput placeholder='Enter Email' value={form.email} onChangeText={value => handleChange('email', value)} placeholderTextColor={'#979797'} style={{ marginLeft: 10 }} />
+            <View style={styles.inputContainer}>
+                <TextInput
+                    placeholder="Enter Mobile No"
+                    value={form.mobileNo}
+                    onChangeText={(value) => handleChange('mobileNo', value)}
+                    placeholderTextColor="#979797"
+                    style={styles.input}
+                    keyboardType="phone-pad"
+                />
             </View>
-            <View style={{ borderWidth: 1, borderRadius: 10, width: "100%", marginTop: 20 }}>
-                <TextInput placeholder='Enter MobileNo' value={form.mobileNo} onChangeText={value => handleChange('mobileNo', value)} placeholderTextColor={'#979797'} style={{ marginLeft: 10 }} />
-            </View>  <View style={{ borderWidth: 1, borderRadius: 10, width: "100%", marginTop: 20 }}>
-                <TextInput placeholder='Enter Password' value={form.password} onChangeText={value => handleChange('password', value)} placeholderTextColor={'#979797'} style={{ marginLeft: 10 }} />
-            </View>  <View style={{ borderWidth: 1, borderRadius: 10, width: "100%", marginTop: 20 }}>
-                <TextInput placeholder='Enter Confirm Password' value={form.confirmPassword} onChangeText={value => handleChange('confirmPassword', value)} placeholderTextColor={'#979797'} style={{ marginLeft: 10 }} />
+            <View style={styles.inputContainer}>
+                <TextInput
+                    placeholder="Enter Password"
+                    value={form.password}
+                    onChangeText={(value) => handleChange('password', value)}
+                    placeholderTextColor="#979797"
+                    style={styles.input}
+                    secureTextEntry
+                />
+            </View>
+            <View style={styles.inputContainer}>
+                <TextInput
+                    placeholder="Enter Confirm Password"
+                    value={form.confirmPassword}
+                    onChangeText={(value) => handleChange('confirmPassword', value)}
+                    placeholderTextColor="#979797"
+                    style={styles.input}
+                    secureTextEntry
+                />
             </View>
 
+            <TouchableOpacity style={styles.button} onPress={signUpData}>
+                <Text style={styles.buttonText}>Sign Up</Text>
+            </TouchableOpacity>
+
+            <Pressable onPress={() => navigation.navigate('LoginScreen')}>
+                <Text style={styles.loginText}>Already have an account? Login</Text>
+            </Pressable>
         </ScrollView>
-    )
-}
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flexGrow: 1,
+        padding: 16,
+        backgroundColor: '#fff',
+    },
+    headerText: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        textAlign: 'center',
+    },
+    errorText: {
+        color: 'red',
+        fontSize: 14,
+        marginBottom: 10,
+        textAlign: 'center',
+    },
+    inputContainer: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 10,
+        marginBottom: 20,
+        paddingHorizontal: 10,
+    },
+    input: {
+        height: 40,
+        fontSize: 16,
+    },
+    button: {
+        backgroundColor: '#ed991a',
+        height: 50,
+        borderRadius: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    loginText: {
+        fontSize: 16,
+        color: '#5753e6',
+        textAlign: 'center',
+        textDecorationLine: 'underline',
+    },
+});
 
 export default withKeyboardAvoiding(SignupScreen);

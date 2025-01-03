@@ -7,14 +7,17 @@ const WishListSlice = createSlice({
         isLoading: false,
     },
     reducers: {
-        addWishList(state = initialState, action) {
-            let productWish = state.data;
-            productWish.push(action.payload);
-            state.data = productWish;
+        addWishList(state, action) {
+            const exists = state.data.some(item => item.id === action.payload.id);
+            if (!exists) {
+                state.data.push(action.payload);
+            }
         },
-
+        removeWishList(state, action) {
+            state.data = state.data.filter(item => item.id !== action.payload);
+        },
     },
 });
 
-export const { addWishList } = WishListSlice.actions;
+export const { addWishList, removeWishList } = WishListSlice.actions;
 export default WishListSlice.reducer;

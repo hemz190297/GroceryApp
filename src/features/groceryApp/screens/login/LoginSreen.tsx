@@ -19,13 +19,14 @@ const LoginScreen = () => {
             .get()
             .then(querySnapshot => {
                 if (!querySnapshot.empty) {
-                    navigation.navigate('Home');
+                    navigation.navigate('MyDrawer');
                 } else {
                     Alert.alert('Invalid email or password');
                 }
             })
             .catch(error => console.error(error));
     }
+
     return (
         <View style={{ marginTop: 200, flex: 1, padding: 16, alignItems: "center" }}>
             <Text style={{ fontSize: 28, fontWeight: "thin" }}>{'Login'}</Text>

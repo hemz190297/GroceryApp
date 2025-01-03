@@ -103,13 +103,13 @@ const CheckoutScreen = () => {
                         </View>
                     ) : (
                         <View style={{ flex: 1 }}>
-                            <ScrollView style={{ flex: 1 }}>
+                            <View style={{ flex: 1 }}>
                                 <FlatList
                                     data={cartCheckoutData}
                                     renderItem={renderCheckoutItem}
                                     keyExtractor={(item) => item.id.toString()}
                                 />
-                            </ScrollView>
+                            </View>
                             <View style={{ paddingHorizontal: 16 }}>
                                 <View style={{ flexDirection: "row", justifyContent: "space-between", borderBottomWidth: 1, borderBottomColor: "#000", }}>
                                     <Text style={{ fontSize: 18, fontWeight: "thin" }}>Total:</Text>
@@ -161,7 +161,7 @@ const CheckoutScreen = () => {
                                             <Text style={{ fontSize: 18, fontWeight: "thin" }}>{`State: ${state}`}</Text>
                                             <Text style={{ fontSize: 18, fontWeight: "thin" }}>{`City: ${city}`}</Text>
                                             <Text style={{ fontSize: 18, fontWeight: "thin" }}>{`Pincode: ${pincode}`}</Text>
-                                            <Text style={{ fontSize: 18, fontWeight: "thin" }}>{`${type}`}</Text>
+                                            <Text style={{ fontSize: 18, fontWeight: "thin" }}>{`Type: ${type}`}</Text>
                                         </View>
 
 

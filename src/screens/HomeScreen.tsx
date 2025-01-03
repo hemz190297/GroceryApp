@@ -21,7 +21,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       <Button title='React dev tools' onPress={() => navigation.navigate('ReactDevToolsHome')} />
       <Button title='CodeParrot Ai' onPress={() => navigation.navigate('CodeParrotScreen')} />
       <Button title='Native module' onPress={() => navigation.navigate('NativeModuleScreen')} />
-      <Button title='MyDrawer module' onPress={() => navigation.navigate('MyDrawer')} />
+      {/* <Button title='MyDrawer module' onPress={() => navigation.navigate('MyDrawer')} /> */}
+      <Button title='GroceryApp' onPress={() => navigation.navigate('LoginScreen')} />
     </ScrollView>
   );
 };
