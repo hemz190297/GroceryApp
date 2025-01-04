@@ -14,6 +14,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 const CheckoutScreen = () => {
     const navigation = useNavigation();
     const cartCheckoutData = useSelector((state) => state.addToCartListState.data);
+    // console.log("cartCheckoutData:::::", cartCheckoutData);
+
     const { cartItemStyle, homeStyle } = TabStyle();
     const dispatch = useDispatch();
     const [selectedAddress, setSelectedAddress] = useState('Please Select Address');
@@ -26,17 +28,17 @@ const CheckoutScreen = () => {
         total = total + item.qty * item.price
     })
 
-    const orderPlace = (paymentId) => {
-        const data = {
-            items: cartCheckoutData,
-            amount: '$' + total,
-            // address:selectedAddress,
-            paymentId: paymentId,
-            paymentStatus: selectedButton == 3 ? 'Pending' : 'Success'
-        };
-        dispatch(addOrders(data));
-        navigation.navigate('OrderScreen')
-    }
+    // const orderPlace = (paymentId) => {
+    //     const data = {
+    //         items: cartCheckoutData,
+    //         amount: '$' + total,
+    //         // address:selectedAddress,
+    //         paymentId: paymentId,
+    //         paymentStatus: selectedButton == 3 ? 'Pending' : 'Success'
+    //     };
+    //     dispatch(addOrders(data));
+    //     navigation.navigate('OrderScreen')
+    // }
 
     useEffect(() => {
         getSelectedAddress();
@@ -46,6 +48,15 @@ const CheckoutScreen = () => {
         const address = await AsyncStorage.getItem('My_ADDRESS');
         setSelectedAddress(address || 'Please Select Address');
     };
+
+    const orderScuccessScreen = () => {
+        setTimeout(() => {
+
+            navigation.navigate('OrderScreen')
+        }, 3000)
+        dispatch(addOrders(cartCheckoutData))
+        navigation.navigate('OrderSuccessScreen')
+    }
 
     const renderCheckoutItem = ({ item, index }) => (
         <View style={cartItemStyle.container}>
@@ -153,8 +164,8 @@ const CheckoutScreen = () => {
                                     <View style={{ marginTop: 40, marginHorizontal: 10 }}>
                                         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                                             <Text style={{ fontSize: 18, fontWeight: "thin" }}>Address</Text>
-                                            <Pressable onPress={() => navigation.navigate("MyAddreses")}>
-                                                <Text style={{ fontSize: 18, fontWeight: "thin", }}>Edit Address</Text>
+                                            <Pressable onPress={() => navigation.navigate("MyAddreses")} style={{ borderBottomWidth: 1, borderBlockColor: "#318ade" }}>
+                                                <Text style={{ fontSize: 18, fontWeight: "thin", color: "#318ade" }}>Edit Address</Text>
                                             </Pressable>
                                         </View>
                                         <View style={{ marginTop: 20 }}>
@@ -167,7 +178,7 @@ const CheckoutScreen = () => {
 
                                     </View>
                                     <View style={{ top: -10 }}>
-                                        <Button title='Pay & Order' onPress={() => {
+                                        {/* <Button title='Pay & Order' onPress={() => {
                                             var options = {
                                                 description: 'Credits towards consultation',
                                                 image: 'https://your-logo-url.com',
@@ -190,7 +201,8 @@ const CheckoutScreen = () => {
                                                 // handle failure
                                                 Alert.alert(`Error: ${error.code} | ${error.description}`);
                                             });
-                                        }} />
+                                        }} /> */}
+                                        <Button title='Pay & Order' onPress={() => { orderScuccessScreen() }} />
                                     </View>
                                 </View>
                             </View>

@@ -60,6 +60,7 @@ const ProductDetails = () => {
                 title="Product Details"
                 onClickLeftIcon={() => navigation.goBack()}
                 onClickRightIcon={handleGoToCart}
+                lengthShown={true}
             />
 
             <View style={productStyle.imageContainer}>
@@ -85,7 +86,7 @@ const ProductDetails = () => {
                 <Text style={productStyle.descriptionTxt}>{product.description}</Text>
             </View>
 
-            <View style={cartItemStyle.qtyContainerCenter}>
+            {/* <View style={cartItemStyle.qtyContainerCenter}>
                 <View style={productStyle.flexRow}>
                     <Text style={productStyle.priceTxt}>Price:</Text>
                     <Text style={productStyle.price}>${product.price}</Text>
@@ -103,7 +104,7 @@ const ProductDetails = () => {
                 >
                     <Image source={require('../common/images/plus.png')} style={homeStyle.iconStyle} />
                 </TouchableOpacity>
-            </View>
+            </View> */}
 
             <View style={productStyle.addToCartButton}>
                 <Button

@@ -10,6 +10,7 @@ type HeaderProps = {
     onClickLeftIcon: () => void;
     onClickRightIcon: () => void;
     isCart: boolean;
+    lengthShown: boolean;
 };
 
 const Header: React.FC<HeaderProps> = ({
@@ -18,7 +19,8 @@ const Header: React.FC<HeaderProps> = ({
     title,
     onClickLeftIcon,
     onClickRightIcon,
-    isCart
+    isCart,
+    lengthShown,
 }) => {
     const { headerStyle } = HeaderStyle();
     const cartList = useSelector((state: any) => state.addToCartListState.data);
@@ -39,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({
             {!isCart && (
                 <TouchableOpacity onPress={onClickRightIcon} style={headerStyle.rightIconContainer}>
                     <Image source={rightIcon} style={headerStyle.rightIconStyle} />
-                    {cartLength > 0 && (
+                    {lengthShown && (
                         <View style={headerStyle.cartBadge}>
                             <Text style={headerStyle.cartBadgeText}>{cartLength}</Text>
                         </View>
@@ -49,5 +51,4 @@ const Header: React.FC<HeaderProps> = ({
         </View>
     );
 };
-
 export default Header;

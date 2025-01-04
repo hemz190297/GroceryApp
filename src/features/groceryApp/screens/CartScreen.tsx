@@ -80,7 +80,7 @@ const CartScreen: React.FC = () => {
                     keyExtractor={(item) => item.id.toString()}
                 />
             )}
-            {cartData.length > 0 && < View style={{ position: "absolute", bottom: 40, width: "100%", justifyContent: "center" }}>
+            {cartData.length > 0 && < View style={{ position: "absolute", bottom: 0, width: "100%", justifyContent: "center" }}>
                 <Checkout item={cartData.length} total={getTotal()} />
             </View>}
 
